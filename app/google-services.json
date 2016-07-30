@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "47021771666",
+    "firebase_url": "https://potluck-4bea4.firebaseio.com",
+    "project_id": "potluck-4bea4",
+    "storage_bucket": "potluck-4bea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47021771666:android:fa7be3b7be645238",
+        "android_client_info": {
+          "package_name": "com.malpo.potluck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47021771666-ge5bt7mqo60pmthkeeufo9aps2nn6u0r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malpo.potluck",
+            "certificate_hash": "7B63D23A3168F269058CA1FDEAD3BD89E1839F8E"
+          }
+        },
+        {
+          "client_id": "47021771666-gfuvbalu1nrr432g4le3k4aepv6vgppk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxkfiI3Ri27OM4lJttO43W_bi9zl_V6H4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47021771666-gfuvbalu1nrr432g4le3k4aepv6vgppk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
