@@ -23,16 +23,6 @@ class SpotifyModule {
     @Provides
     fun provideSpotifyService(): SpotifyService {
         val httpClient = OkHttpClient.Builder()
-//        httpClient.addInterceptor { chain ->
-//            val original = chain!!.request()
-//            val request = original.newBuilder()
-//                    .header("Content-Type","application/x-www-form-urlencoded")
-//                    .method(original.method(), original.body())
-//                    .build()
-//
-//            chain.proceed(request)
-//        }
-
         if (BuildConfig.DEBUG) {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -51,6 +41,4 @@ class SpotifyModule {
     fun provideSpotifyClient(service: SpotifyService): SpotifyClient {
         return SpotifyClient(service)
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.malpo.potluck.models
+package com.malpo.potluck.models.spotify
 
 import com.squareup.moshi.Json
 

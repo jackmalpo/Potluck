@@ -6,8 +6,8 @@ import com.malpo.potluck.R
 import com.malpo.potluck.di.DaggerHolder
 import com.malpo.potluck.firebase.rx.Firebase
 import com.malpo.potluck.networking.SpotifyClient
-import com.metova.flyingsaucer.defaultActivityParams
 import com.metova.flyingsaucer.ui.base.BaseActivity
+import com.metova.flyingsaucer.util.PreferenceStore
 import com.metova.slim.annotation.Layout
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.schedulers.Schedulers
@@ -25,6 +25,9 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var spotifyClient: SpotifyClient
+
+    @Inject
+    lateinit var preferenceStore: PreferenceStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,20 +47,5 @@ class MainActivity : BaseActivity() {
                         },
                         { Timber.e(it, it.message) }
                 )
-
-
-        spotifyClient.getToken()
-                .defaultActivityParams(mLifecycleSubject)
-                .subscribe(
-                        {
-                            val token = it
-                            Timber.d(token.toString())
-                        },
-                        {
-                            Timber.e(it, it.message)
-                        }
-                )
-
-
     }
 }

@@ -11,8 +11,4 @@ class DaggerHolder {
     fun setDaggerComponent(component: ApplicationComponent) {
         this.component = component
     }
-
-    fun component(): ApplicationComponent {
-        return component
-    }
 }

@@ -25,10 +25,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file("potluck_keystore.jks")
+            storePassword "Wa8qBuFTVvpQ4LeV1ibsWC"
+            keyAlias "potluck_keystore"
+            keyPassword "aoRDug63CICqhCSmu7rcAT"
+        }
+    }
     buildTypes {
+        debug {}
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
