@@ -10,7 +10,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(
         AndroidModule::class,
-        FirebaseModule::class))
+        FirebaseModule::class,
+        SpotifyModule::class,
+        PreferencesModule::class))
+
 interface ApplicationComponent {
     fun inject(mainActivity: MainActivity)
 }

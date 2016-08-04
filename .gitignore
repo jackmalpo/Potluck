@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/android,intellij,gradle,linux,osx,windows
 
+### Potluck Specific ###
+SpotifyCreds.kt
+
 ### Android ###
 # Built application files
 *.apk

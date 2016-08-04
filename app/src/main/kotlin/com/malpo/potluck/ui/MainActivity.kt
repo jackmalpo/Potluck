@@ -2,16 +2,20 @@ package com.malpo.potluck.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.malpo.potluck.R
 import com.malpo.potluck.di.DaggerHolder
 import com.malpo.potluck.firebase.rx.Firebase
+import com.malpo.potluck.networking.SpotifyClient
+import com.metova.flyingsaucer.ui.base.BaseActivity
+import com.metova.flyingsaucer.util.PreferenceStore
+import com.metova.slim.annotation.Layout
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+@Layout(R.layout.activity_main)
+class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var context: Context
@@ -19,14 +23,19 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var firebase: Firebase
 
+    @Inject
+    lateinit var spotifyClient: SpotifyClient
+
+    @Inject
+    lateinit var preferenceStore: PreferenceStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerHolder.instance.component.inject(this)
 
-        setContentView(R.layout.activity_main)
         test_text.text = "Yo yo yo..."
 
-        val myRef = firebase.getDatabase().getReference("message")
+        val myRef = firebase.database.getReference("message")
         myRef.setValue("Hello, World!")
 
         firebase.observeValueEvent(myRef)
@@ -38,6 +47,5 @@ class MainActivity : AppCompatActivity() {
                         },
                         { Timber.e(it, it.message) }
                 )
-
     }
 }

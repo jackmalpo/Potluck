@@ -28,9 +28,13 @@ import javax.inject.Singleton
  * RxJava
  */
 @Singleton
-class Firebase{
+class Firebase {
 
-    fun getDatabase() : FirebaseDatabase = FirebaseDatabase.getInstance()
+    val database: FirebaseDatabase
+        get() {
+            return FirebaseDatabase.getInstance()
+        }
+
 
     /**
      * This methods observes a firebase query and returns back
