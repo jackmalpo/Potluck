@@ -1,9 +1,10 @@
 package com.malpo.potluck.di
 
 import com.malpo.potluck.BuildConfig
-import com.malpo.potluck.networking.SpotifyGuestAuthenticator
-import com.malpo.potluck.networking.SpotifyGuestClient
-import com.malpo.potluck.networking.SpotifyGuestService
+import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
+import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
+import com.malpo.potluck.networking.spotify.guest.SpotifyGuestService
+import com.malpo.potluck.networking.spotify.host.SpotifyHostAuthenticationManager
 import com.metova.flyingsaucer.util.PreferenceStore
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -24,11 +25,15 @@ class SpotifyModule {
         private val BASE_URL = "https://api.spotify.com"
     }
 
-    @Provides @Singleton fun provideMoshi(): Moshi {
+    @Provides
+    @Singleton
+    fun provideMoshi(): Moshi {
         return Moshi.Builder().build()
     }
 
-    @Provides @Named("pre_auth") fun provideNoAuthOkHttpClient(moshi: Moshi, prefs: PreferenceStore): OkHttpClient {
+    @Provides
+    @Named("pre_auth")
+    fun provideNoAuthOkHttpClient(moshi: Moshi, prefs: PreferenceStore): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
@@ -40,14 +45,18 @@ class SpotifyModule {
         return builder.build()
     }
 
-    @Provides fun provideAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient, moshi: Moshi, prefs: PreferenceStore) : OkHttpClient {
+    @Provides
+    fun provideAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient,
+                                moshi: Moshi,
+                                prefs: PreferenceStore): OkHttpClient {
         //Need reference to built client so we have to build before adding authenticator
         return okHttpClient.newBuilder()
                 .authenticator(SpotifyGuestAuthenticator(okHttpClient, moshi, prefs))
                 .build()
     }
 
-    @Provides fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit {
+    @Provides
+    fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
@@ -55,11 +64,21 @@ class SpotifyModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build()
     }
 
-    @Provides fun provideSpotifyGuestService(retrofit: Retrofit): SpotifyGuestService {
+    @Provides
+    fun provideSpotifyGuestService(retrofit: Retrofit): SpotifyGuestService {
         return retrofit.create(SpotifyGuestService::class.java)
     }
 
-    @Provides @Singleton fun provideSpotifyGuestClient(service: SpotifyGuestService, prefs: PreferenceStore): SpotifyGuestClient {
+    @Provides
+    @Singleton
+    fun provideSpotifyGuestClient(service: SpotifyGuestService,
+                                  prefs: PreferenceStore): SpotifyGuestClient {
         return SpotifyGuestClient(service, prefs)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSpotifyHostAuthManager(prefs: PreferenceStore): SpotifyHostAuthenticationManager {
+        return SpotifyHostAuthenticationManager(prefs)
     }
 }

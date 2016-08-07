@@ -1,4 +1,4 @@
-package com.malpo.potluck.networking
+package com.malpo.potluck.networking.spotify.guest
 
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.models.spotify.TrackObject

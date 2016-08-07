@@ -11,12 +11,12 @@ import rx.subjects.BehaviorSubject
 /**
  * Observable Extensions
  */
-fun <T> Observable<T>.defaultFragmentParams(sub : BehaviorSubject<FragmentEvent>): Observable<T> =
+fun <T> Observable<T>.bindToFragment(sub : BehaviorSubject<FragmentEvent>): Observable<T> =
         subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent<T>(FragmentEvent.DESTROY, sub))
 
-fun <T> Observable<T>.defaultActivityParams(sub : BehaviorSubject<ActivityEvent>): Observable<T> =
+fun <T> Observable<T>.bindToActivity(sub : BehaviorSubject<ActivityEvent>): Observable<T> =
         subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent<T>(ActivityEvent.DESTROY, sub))

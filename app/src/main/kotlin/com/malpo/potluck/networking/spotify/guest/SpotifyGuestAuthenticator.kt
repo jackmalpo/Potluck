@@ -1,6 +1,5 @@
-package com.malpo.potluck.networking
+package com.malpo.potluck.networking.spotify.guest
 
-import android.util.Base64
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
 import com.metova.flyingsaucer.util.PreferenceStore
@@ -13,17 +12,11 @@ class SpotifyGuestAuthenticator(private val client: OkHttpClient,
 
     private var token: String = ""
 
-    companion object {
-        val ENCODED_CREDS: String = Base64.encodeToString(("${SpotifyCreds.ID}:${SpotifyCreds.SECRET}")
-                .toByteArray(), Base64.DEFAULT)
-                .replace("\n", "")
-    }
-
     override fun authenticate(route: Route, response: Response): Request {
         val request = Request.Builder()
                 .url("https://accounts.spotify.com/api/token")
                 .header("Accept", "application/json")
-                .header("Authorization", "Basic $ENCODED_CREDS")
+                .header("Authorization", "Basic ${SpotifyCreds.ENCODED_CREDS}")
                 .post(FormBody.Builder()
                         .add("grant_type", "client_credentials")
                         .build())
