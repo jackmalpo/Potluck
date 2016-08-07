@@ -2,13 +2,12 @@ package com.metova.flyingsaucer.ui.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.malpo.potluck.ui.LifecycleProvider
 import com.metova.slim.Slim
 import com.trello.rxlifecycle.ActivityEvent
 import com.trello.rxlifecycle.ActivityEvent.*
 import rx.subjects.BehaviorSubject
 
-open class BaseActivity : AppCompatActivity(), LifecycleProvider {
+open class BaseActivity : AppCompatActivity() {
 
     protected val mLifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
@@ -45,9 +44,5 @@ open class BaseActivity : AppCompatActivity(), LifecycleProvider {
     override fun onStart() {
         super.onStart()
         mLifecycleSubject.onNext(START)
-    }
-
-    override fun getLifecycleSubject(): BehaviorSubject<Any> {
-        return mLifecycleSubject
     }
 }

@@ -1,4 +1,4 @@
-package com.metova.flyingsaucer
+package com.malpo.potluck.extensions
 
 import com.trello.rxlifecycle.ActivityEvent
 import com.trello.rxlifecycle.FragmentEvent

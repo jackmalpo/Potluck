@@ -10,7 +10,7 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun providesFirebase() : Firebase {
+    fun providesFirebase(): Firebase {
         return Firebase()
     }
 }

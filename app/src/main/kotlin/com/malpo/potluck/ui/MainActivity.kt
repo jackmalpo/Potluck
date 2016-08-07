@@ -4,13 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import com.malpo.potluck.R
 import com.malpo.potluck.di.DaggerHolder
+import com.malpo.potluck.extensions.defaultActivityParams
 import com.malpo.potluck.firebase.rx.Firebase
-import com.malpo.potluck.networking.SpotifyClient
+import com.malpo.potluck.networking.SpotifyGuestClient
 import com.metova.flyingsaucer.ui.base.BaseActivity
-import com.metova.flyingsaucer.util.PreferenceStore
 import com.metova.slim.annotation.Layout
-import kotlinx.android.synthetic.main.activity_main.*
-import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,28 +22,29 @@ class MainActivity : BaseActivity() {
     lateinit var firebase: Firebase
 
     @Inject
-    lateinit var spotifyClient: SpotifyClient
-
-    @Inject
-    lateinit var preferenceStore: PreferenceStore
+    lateinit var spotifyClient: SpotifyGuestClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerHolder.instance.component.inject(this)
 
-        test_text.text = "Yo yo yo..."
+        spotifyClient
+                .getAnonToken()
+                .defaultActivityParams(mLifecycleSubject)
+                .subscribe {
+                    search()
+                    Timber.d("Retrieved access token ${it.accessToken}")
+                }
+    }
 
-        val myRef = firebase.database.getReference("message")
-        myRef.setValue("Hello, World!")
+    fun search() {
+        spotifyClient
+                .search("the beatles")
+                .defaultActivityParams(mLifecycleSubject)
+                .subscribe({
 
-        firebase.observeValueEvent(myRef)
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(
-                        { dataSnapshot ->
-                            val value = dataSnapshot.getValue(String::class.java)
-                            Timber.d("Value is: $value")
-                        },
-                        { Timber.e(it, it.message) }
-                )
+                }, {
+
+                })
     }
 }

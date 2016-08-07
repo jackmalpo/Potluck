@@ -10,7 +10,7 @@ class PotluckApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         DaggerHolder.instance.setDaggerComponent(createComponent())
-
+        DaggerHolder.instance.component.inject(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
