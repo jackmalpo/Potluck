@@ -54,9 +54,15 @@ android {
         abortOnError false
     }
     sourceSets {
+        def sharedPackage = "src/sharedTest/kotlin"
+        sharedTest.java.srcDirs += sharedPackage
+
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.java.srcDirs 'src/androidTest/kotlin'
+
+        test.java.srcDirs += sharedPackage
+        androidtest.java.srcDirs += sharedPackage
     }
 }
 
@@ -66,6 +72,9 @@ kapt {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://repository.jetbrains.com/all"
+    }
     flatDir {
         dirs 'libs'
     }
@@ -135,6 +144,10 @@ dependencies {
     /* UNIT TEST */
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile "com.nhaarman:mockito-kotlin:0.5.2"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    kaptTest 'com.google.dagger:dagger-compiler:2.4'
+
+
 }
 apply plugin: 'com.google.gms.google-services'

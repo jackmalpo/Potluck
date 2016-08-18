@@ -1,7 +1,6 @@
 package com.malpo.potluck.di
 
-import com.malpo.potluck.PotluckApplication
-import com.malpo.potluck.ui.MainActivity
+import com.malpo.potluck.BaseComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,7 +14,5 @@ import javax.inject.Singleton
         SpotifyModule::class,
         PreferencesModule::class))
 
-interface ApplicationComponent {
-    fun inject(mainActivity: MainActivity)
-    fun inject(application: PotluckApplication)
+interface ApplicationComponent : BaseComponent{
 }
