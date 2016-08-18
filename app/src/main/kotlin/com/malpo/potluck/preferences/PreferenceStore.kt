@@ -5,13 +5,13 @@ import javax.inject.Singleton
 
 
 @Singleton
-class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
+open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
 
-    fun clearSharedPrefs() {
+    open fun clearSharedPrefs() {
         mSharedPreferences.edit().clear().apply()
     }
 
-    fun setSpotifyGuestToken(token: String){
+    open fun setSpotifyGuestToken(token: String){
         mSharedPreferences.edit().putString(SPOTIFY_GUEST_TOKEN, token).commit()
     }
 
