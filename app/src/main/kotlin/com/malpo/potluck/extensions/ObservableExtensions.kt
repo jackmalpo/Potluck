@@ -22,10 +22,10 @@ fun <T> Observable<T>.bindToActivity(sub : BehaviorSubject<ActivityEvent>): Obse
                 .compose(bindUntilEvent<T>(ActivityEvent.DESTROY, sub))
 
 fun <T> bindUntilEvent(event: FragmentEvent, sub: BehaviorSubject<FragmentEvent>): Observable.Transformer<T, T> {
-    return RxLifecycle.bindUntilFragmentEvent<T>(sub, event)
+    return RxLifecycle.bindUntilEvent(sub, event)
 }
 
 fun <T> bindUntilEvent(event: ActivityEvent, sub: BehaviorSubject<ActivityEvent>): Observable.Transformer<T, T> {
-    return RxLifecycle.bindUntilActivityEvent<T>(sub, event)
+    return RxLifecycle.bindUntilEvent(sub, event)
 }
 

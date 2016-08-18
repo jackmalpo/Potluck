@@ -2,6 +2,7 @@ package com.malpo.potluck.networking.spotify.guest
 
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
+import com.malpo.potluck.models.spotify.Track
 import com.malpo.potluck.models.spotify.TrackObject
 import com.metova.flyingsaucer.util.PreferenceStore
 import rx.Observable
@@ -20,7 +21,7 @@ class SpotifyGuestClient(private val service: SpotifyGuestService,
                 }
     }
 
-    fun search(query: String): Observable<Any?> {
+    fun search(query: String): Observable<List<Track>> {
         val params = HashMap<String, String>()
         params.put("q", query)
         params.put("type", "track")

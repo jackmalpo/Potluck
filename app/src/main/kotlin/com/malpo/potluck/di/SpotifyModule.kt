@@ -32,8 +32,8 @@ class SpotifyModule {
     }
 
     @Provides
-    @Named("pre_auth")
-    fun provideNoAuthOkHttpClient(moshi: Moshi, prefs: PreferenceStore): OkHttpClient {
+    @Named("pre_auth") //needed because we need to pass built client to below method.
+    fun provideNoAuthOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
