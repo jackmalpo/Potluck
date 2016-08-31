@@ -3,7 +3,7 @@ package com.malpo.potluck
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestService
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
@@ -12,6 +12,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import rx.Observable
+import rx.observers.TestSubscriber
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -45,8 +46,8 @@ class SpotifyGuestClientTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun getAnonToken_savesToPrefs() {
-        spotifyGuestClient.getAnonToken().subscribe {
-            verify(mockPrefs).setSpotifyGuestToken(eq("123"))
-        }
+        val testSubscriber = TestSubscriber<Token>()
+        spotifyGuestClient.getAnonToken().subscribe(testSubscriber)
+        verify(mockPrefs).setSpotifyGuestToken(eq("123"))
     }
 }

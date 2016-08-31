@@ -1,7 +1,7 @@
 package com.malpo.potluck
 
 import android.content.SharedPreferences
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

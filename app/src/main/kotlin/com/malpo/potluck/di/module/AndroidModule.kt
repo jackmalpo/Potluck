@@ -1,4 +1,4 @@
-package com.malpo.potluck.di
+package com.malpo.potluck.di.module
 
 import android.content.Context
 import dagger.Module

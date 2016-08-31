@@ -2,7 +2,7 @@ package com.malpo.potluck.networking.spotify.guest
 
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import okhttp3.*
 

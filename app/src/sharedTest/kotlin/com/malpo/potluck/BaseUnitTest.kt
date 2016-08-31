@@ -1,6 +1,5 @@
 package com.malpo.potluck
 
-import com.malpo.potluck.di.DaggerHolder
 import org.junit.Before
 
 open class BaseUnitTest {
@@ -10,13 +9,13 @@ open class BaseUnitTest {
     @Before
     @Throws(Exception::class)
     fun initComponents() {
-        component = createComponent()
-        DaggerHolder.instance.setDaggerComponent(component)
+//        component = createComponent()
+//        DaggerHolder.instance.setDaggerComponent(component)
     }
 
-    fun createComponent(): TestComponent {
-        return DaggerTestComponent.builder()
-                .testModule(TestModule())
-                .build()
-    }
+//    fun createComponent(): TestComponent {
+//        return DaggerTestComponent.builder()
+//                .testModule(TestModule())
+//                .build()
+//    }
 }

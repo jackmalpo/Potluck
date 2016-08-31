@@ -1,7 +1,7 @@
-package com.malpo.potluck.di
+package com.malpo.potluck.di.module
 
 import android.content.Context
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -9,8 +9,8 @@ import javax.inject.Singleton
 @Module(includes = arrayOf(AndroidModule::class))
 class PreferencesModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesPreferenceStore(context: Context): PreferenceStore {
         return PreferenceStore(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE))
     }

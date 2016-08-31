@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.malpo.potluck.models.SpotifyCreds
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse

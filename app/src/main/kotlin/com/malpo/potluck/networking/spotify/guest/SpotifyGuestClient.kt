@@ -4,7 +4,7 @@ import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.models.spotify.Track
 import com.malpo.potluck.models.spotify.TrackObject
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import rx.Observable
 import java.util.*
 import javax.inject.Singleton

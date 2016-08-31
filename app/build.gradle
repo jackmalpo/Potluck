@@ -11,7 +11,6 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
@@ -42,10 +41,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
     packagingOptions {
         exclude 'LICENSE'
@@ -93,12 +88,9 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    //retrolambda
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
-
     //support libs
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile('com.android.support:support-fragment:24.2.0'){
+    compile('com.android.support:support-fragment:24.2.0') {
         exclude group: 'com.google.android.gms'
     }
 
@@ -129,6 +121,8 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.9'
     compile 'io.reactivex:rxkotlin:0.60.0'
     compile 'com.trello:rxlifecycle:0.6.1'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
 
     //retrofit / okhttp
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -160,5 +154,6 @@ dependencies {
     kaptTest 'com.google.dagger:dagger-compiler:2.6'
 
 
+    compile 'com.android.support:recyclerview-v7:24.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

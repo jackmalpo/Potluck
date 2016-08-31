@@ -1,48 +1,64 @@
-package com.metova.flyingsaucer.ui.base
+package com.malpo.potluck.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.metova.slim.Slim
+import com.malpo.potluck.di.DaggerHolder
+import com.malpo.potluck.di.component.ActivityComponent
+import com.malpo.potluck.di.component.ActivityStateComponent
 import com.trello.rxlifecycle.ActivityEvent
-import com.trello.rxlifecycle.ActivityEvent.*
 import rx.subjects.BehaviorSubject
 
 open class BaseActivity : AppCompatActivity() {
 
-    protected val mLifecycleSubject = BehaviorSubject.create<ActivityEvent>()
+    private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
+
+    private lateinit var component: ActivityComponent
+
+    private lateinit var stateComponent: ActivityStateComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mLifecycleSubject.onNext(CREATE)
-        val layout = Slim.createLayout(this, this)
-        if (layout != null) {
-            setContentView(layout)
-        }
-        Slim.injectExtras(intent.extras, this)
+
+        stateComponent = lastCustomNonConfigurationInstance as ActivityStateComponent? ?: DaggerHolder.instance.component.newActivityState()
+        component = stateComponent.onCreate(this)
+
+        lifecycleSubject.onNext(ActivityEvent.CREATE)
     }
 
     override fun onStop() {
         super.onStop()
-        mLifecycleSubject.onNext(STOP)
+        lifecycleSubject.onNext(ActivityEvent.STOP)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mLifecycleSubject.onNext(DESTROY)
+        lifecycleSubject.onNext(ActivityEvent.DESTROY)
     }
 
     override fun onPause() {
         super.onPause()
-        mLifecycleSubject.onNext(PAUSE)
+        lifecycleSubject.onNext(ActivityEvent.PAUSE)
     }
 
     override fun onResume() {
         super.onResume()
-        mLifecycleSubject.onNext(RESUME)
+        lifecycleSubject.onNext(ActivityEvent.RESUME)
     }
 
     override fun onStart() {
         super.onStart()
-        mLifecycleSubject.onNext(START)
+        lifecycleSubject.onNext(ActivityEvent.START)
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): ActivityStateComponent {
+        return stateComponent
+    }
+
+    fun state(): ActivityStateComponent {
+        return stateComponent
+    }
+
+    fun component(): ActivityComponent {
+        return component
     }
 }

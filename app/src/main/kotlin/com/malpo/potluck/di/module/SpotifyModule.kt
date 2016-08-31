@@ -1,11 +1,11 @@
-package com.malpo.potluck.di
+package com.malpo.potluck.di.module
 
 import com.malpo.potluck.BuildConfig
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestService
 import com.malpo.potluck.networking.spotify.host.SpotifyHostAuthenticationManager
-import com.metova.flyingsaucer.util.PreferenceStore
+import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

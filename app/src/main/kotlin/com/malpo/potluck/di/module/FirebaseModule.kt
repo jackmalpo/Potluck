@@ -1,4 +1,4 @@
-package com.malpo.potluck.di
+package com.malpo.potluck.di.module
 
 import com.malpo.potluck.firebase.rx.Firebase
 import dagger.Module
@@ -10,7 +10,7 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun providesFirebase(): Firebase {
+    fun provideFirebase(): Firebase {
         return Firebase()
     }
 }

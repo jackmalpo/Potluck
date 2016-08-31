@@ -1,6 +1,6 @@
 package com.malpo.potluck.di
 
-import com.malpo.potluck.BaseComponent
+import com.malpo.potluck.di.component.ApplicationComponent
 
 class DaggerHolder {
 
@@ -8,9 +8,9 @@ class DaggerHolder {
         val instance = DaggerHolder()
     }
 
-    lateinit var component: BaseComponent
+    lateinit var component: ApplicationComponent
 
-    fun setDaggerComponent(component: BaseComponent) {
+    fun setDaggerComponent(component: ApplicationComponent) {
         this.component = component
     }
 }

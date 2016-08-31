@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Potluck</string>
+    <string name="guest">Continue as guest</string>
+    <string name="host">Host your playlist</string>
 </resources>
