@@ -9,7 +9,7 @@ open class WelcomePresenter @Inject constructor() : WelcomeScreen.Presenter {
 
     override fun bind(elements: MutableCollection<Knot<*>>, x: WelcomeScreen.View) {
         elements.addAll(mutableListOf(
-                tie(x.hostClicked(), { System.out.println("host")}),
+                tie(x.hostClicked(), { Timber.d("host") }),
                 tie(x.guestClicked(), { Timber.d("guest") })
         )
         )

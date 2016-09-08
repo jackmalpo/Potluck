@@ -18,11 +18,13 @@ class WelcomeViewAndroid : WelcomeView(), AndroidScreen {
 
     private lateinit var view: View
 
+    private lateinit var testView: Knot<Unit>
+
     override fun bind(elements: MutableCollection<Knot<*>>, x: WelcomeScreen.Presenter) {
         super.bind(elements, x)
         elements.addAll(mutableListOf(
-                tie(view.host_button.clicks(), { hostClicks }),
-                tie(view.guest_button.clicks(), { guestClicks })
+                tie(view.host_button.clicks(), hostClicks),
+                tie(view.guest_button.clicks(), guestClicks)
         ))
     }
 

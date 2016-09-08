@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 open class BaseFragment : Fragment(), ScreenHost{
 
-    protected val lifeCycleSubject = BehaviorSubject.create<FragmentEvent>()
+    protected val lifeCycleSubject: BehaviorSubject<FragmentEvent> = BehaviorSubject.create<FragmentEvent>()
 
     @Inject
     protected lateinit var activityState: ActivityStateComponent

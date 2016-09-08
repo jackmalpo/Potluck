@@ -8,12 +8,17 @@ import rx.Observer
 import rx.functions.Action0
 import rx.functions.Action1
 import rx.internal.util.ActionSubscriber
+import timber.log.Timber
 
 class Knot<T : Any?> private constructor(val from: Observable<T>, val to: Observer<T>) {
 
     companion object {
-        fun <T> tie(source: Observable<T>, onNext : () -> T): Knot<T> {
-            return tie(source, Action1 { onNext }, Action1 {  })
+        fun <T> tie(source: Observable<T>, onNext: (T) -> Unit): Knot<T> {
+            return tie(source, Action1<T> { it -> onNext.invoke(it) }, Action1 { it -> Timber.e(it.message) })
+        }
+
+        fun <T> tie(source: Observable<T>, onNext: Action1<T>): Knot<T> {
+            return tie(source, onNext, Action1 { it -> Timber.e(it.message) })
         }
 
         fun <T> tie(source: Observable<T>, onNext: Action1<T>, onError: Action1<Throwable>): Knot<T> {
