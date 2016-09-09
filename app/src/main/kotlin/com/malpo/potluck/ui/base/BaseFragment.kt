@@ -1,4 +1,4 @@
-package com.malpo.potluck.ui.mvp
+package com.malpo.potluck.ui.base
 
 import android.content.Context
 import android.os.Bundle
@@ -11,16 +11,17 @@ import android.widget.FrameLayout
 import com.malpo.potluck.di.component.ActivityStateComponent
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.ui.BaseActivity
+import com.malpo.potluck.ui.screen.ScreenHolder
 import com.trello.rxlifecycle.FragmentEvent
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class BaseFragment : Fragment(), ScreenHost{
+open class BaseFragment : Fragment(), ScreenHolder {
 
     protected val lifeCycleSubject: BehaviorSubject<FragmentEvent> = BehaviorSubject.create<FragmentEvent>()
 
     @Inject
-    protected lateinit var activityState: ActivityStateComponent
+    protected lateinit var state: ActivityStateComponent
 
     private lateinit var component: ViewComponent
 
@@ -47,7 +48,7 @@ open class BaseFragment : Fragment(), ScreenHost{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        component = (context as BaseActivity).component().viewComponent(ViewComponent.ScreenHostModule(this))
+        component = (context as BaseActivity).component().viewComponent(ViewComponent.ScreenHolderModule(this))
         component.inject(this)
     }
 

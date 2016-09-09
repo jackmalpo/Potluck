@@ -5,7 +5,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-open class PreferenceStore (internal var mSharedPreferences: SharedPreferences) {
+open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
 
     open fun clearSharedPrefs() {
         mSharedPreferences.edit().clear().apply()

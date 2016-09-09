@@ -1,10 +1,10 @@
 package com.malpo.potluck.ui.welcome.screen
 
-import com.malpo.potluck.ui.mvp.ScreenPresenter
-import com.malpo.potluck.ui.mvp.ScreenView
+import com.jakewharton.rxrelay.PublishRelay
+import com.malpo.potluck.ui.screen.ScreenPresenter
+import com.malpo.potluck.ui.screen.ScreenView
 import dagger.Module
 import dagger.Provides
-import rx.Observable
 
 interface WelcomeScreen {
 
@@ -16,11 +16,10 @@ interface WelcomeScreen {
         }
     }
 
-    interface Presenter : ScreenPresenter<View, Presenter> {
-    }
+    interface Presenter : ScreenPresenter<View, Presenter> {}
 
     interface View : ScreenView<View, Presenter> {
-        fun hostClicked(): Observable<Unit>
-        fun guestClicked(): Observable<Unit>
+        val hostClicks: PublishRelay<Unit>
+        val guestClicks: PublishRelay<Unit>
     }
 }

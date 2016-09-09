@@ -9,7 +9,7 @@ interface SpotifyGuestService {
 
     @FormUrlEncoded
     @POST("https://accounts.spotify.com/api/token")
-    fun getAnonToken(@Header("Authorization") auth : String, @Field("grant_type") type : String) : Observable<Token>
+    fun getAnonToken(@Header("Authorization") auth: String, @Field("grant_type") type: String): Observable<Token>
 
 
     @GET("/v1/search")

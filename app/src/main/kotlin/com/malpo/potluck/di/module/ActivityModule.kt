@@ -11,13 +11,13 @@ class ActivityModule(private val activity: BaseActivity) {
 
     @Provides
     @EachActivity
-    fun providesContext(activity: BaseActivity): Context {
+    fun provideContext(activity: BaseActivity): Context {
         return activity
     }
 
     @Provides
     @EachActivity
-    fun providesActivity(): BaseActivity {
+    fun provideActivity(): BaseActivity {
         return activity
     }
 }

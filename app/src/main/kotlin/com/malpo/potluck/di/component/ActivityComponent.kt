@@ -8,6 +8,6 @@ import dagger.Subcomponent
 @EachActivity
 @Subcomponent(modules = arrayOf(ActivityModule::class))
 interface ActivityComponent {
-    fun viewComponent(hostModule: ViewComponent.ScreenHostModule): ViewComponent
+    fun viewComponent(holderModule: ViewComponent.ScreenHolderModule): ViewComponent
     fun inject(obj: PotluckActivity)
 }

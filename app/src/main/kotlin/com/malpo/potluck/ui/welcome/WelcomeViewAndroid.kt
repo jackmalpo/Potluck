@@ -4,9 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding.view.clicks
 import com.malpo.potluck.R
-import com.malpo.potluck.ui.mvp.AndroidScreen
-import com.malpo.potluck.ui.mvp.Knot
-import com.malpo.potluck.ui.mvp.Knot.Companion.tie
+import com.malpo.potluck.ui.screen.AndroidScreen
+import com.malpo.potluck.ui.screen.Knot
+import com.malpo.potluck.ui.screen.Knot.Companion.tie
+import com.malpo.potluck.ui.screen.wrap
 import com.malpo.potluck.ui.welcome.screen.WelcomeScreen
 import com.malpo.potluck.ui.welcome.screen.WelcomeView
 import com.metova.slim.Slim
@@ -18,26 +19,12 @@ class WelcomeViewAndroid : WelcomeView(), AndroidScreen {
 
     private lateinit var view: View
 
-    private lateinit var testView: Knot<Unit>
-
-    override fun bind(elements: MutableCollection<Knot<*>>, x: WelcomeScreen.Presenter) {
-        super.bind(elements, x)
-        elements.addAll(mutableListOf(
-                tie(view.host_button.clicks(), hostClicks),
-                tie(view.guest_button.clicks(), guestClicks)
-        ))
+    override fun bind(knots: MutableCollection<Knot<*>>, x: WelcomeScreen.Presenter) {
+        knots.wrap(tie(view.host_button.clicks(), hostClicks), tie(view.guest_button.clicks(), guestClicks))
     }
 
     override fun onCreateView(parent: ViewGroup): View {
         view = Slim.createLayout(parent.context, this, parent)
         return view
-    }
-
-    override fun onViewCreated(view: View) {
-        //noop
-    }
-
-    override fun onDestroyView() {
-        //noop
     }
 }

@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @Singleton
-class SpotifyHostAuthenticationManager(private val prefs : PreferenceStore) {
+class SpotifyHostAuthenticationManager(private val prefs: PreferenceStore) {
 
     lateinit var context: Context
 
@@ -28,7 +28,7 @@ class SpotifyHostAuthenticationManager(private val prefs : PreferenceStore) {
         AuthenticationClient.openLoginActivity(activity, SpotifyCreds.REQUEST_CODE, request)
     }
 
-    fun handleLoginResult(requestCode: Int, resultCode: Int, intent: Intent){
+    fun handleLoginResult(requestCode: Int, resultCode: Int, intent: Intent) {
         if (requestCode === SpotifyCreds.REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type === AuthenticationResponse.Type.TOKEN) {
@@ -38,7 +38,7 @@ class SpotifyHostAuthenticationManager(private val prefs : PreferenceStore) {
         }
     }
 
-    fun logout(){
+    fun logout() {
         AuthenticationClient.clearCookies(context)
         prefs.clearSpotifyHostToken()
     }
