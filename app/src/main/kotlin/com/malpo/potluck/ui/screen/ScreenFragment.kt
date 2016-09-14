@@ -8,6 +8,7 @@ import android.view.View.generateViewId
 import android.view.ViewGroup
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.extensions.bindToFragment
+import com.malpo.potluck.misc.Knot
 import com.malpo.potluck.ui.base.BaseFragment
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
@@ -15,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, AV : V> : BaseFragment() {
+abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, VA : V> : BaseFragment() {
 
     @Inject
     protected lateinit var presenterProvider: Provider<P>
@@ -58,9 +59,10 @@ abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, A
 
     override fun onStart() {
         super.onStart()
+        val screenHolder = viewComponent().screenHolder()
         val knots = ArrayList<Knot<*>>()
-        presenter.bind(knots, view)
-        view.bind(knots, presenter)
+        presenter.bind(screenHolder, view, knots)
+        view.bind(screenHolder, presenter, knots)
         knots.forEach { knot ->
             @Suppress("UNCHECKED_CAST")
             knot.from.bindToFragment(lifeCycleSubject).observeOn(AndroidSchedulers.mainThread()).subscribe(knot.to as Observer<in Any?>)
@@ -81,7 +83,7 @@ abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, A
 
     abstract fun inject(component: ViewComponent)
 
-    abstract fun buildView(): AV
+    abstract fun buildView(): VA
 
     companion object {
         val PRESENTER_KEY: String = "presenter_key"

@@ -1,8 +1,5 @@
-@file:Suppress("UNUSED_EXPRESSION")
+package com.malpo.potluck.misc
 
-package com.malpo.potluck.ui.screen
-
-import com.malpo.potluck.misc.EmptyAction
 import rx.Observable
 import rx.Observer
 import rx.functions.Action0
