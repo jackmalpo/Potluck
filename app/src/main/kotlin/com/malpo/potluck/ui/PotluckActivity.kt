@@ -18,6 +18,8 @@ class PotluckActivity : BaseActivity(), ScreenHolder {
 
     private var current: Fragment? = null
 
+    private var activityResultListener : ActivityResultListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         component().inject(this)
@@ -94,5 +96,18 @@ class PotluckActivity : BaseActivity(), ScreenHolder {
                 throw RuntimeException(e)
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        activityResultListener?.whenActivityResult(requestCode, resultCode, data)
+    }
+
+    public fun setActivityResultListener(listener: ActivityResultListener){
+        activityResultListener = listener
+    }
+
+    interface ActivityResultListener{
+        fun whenActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     }
 }

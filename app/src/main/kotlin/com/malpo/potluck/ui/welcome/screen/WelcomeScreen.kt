@@ -11,9 +11,7 @@ interface WelcomeScreen {
     @Module
     class PresenterModule {
         @Provides
-        internal fun presenter(presenter: WelcomePresenter): Presenter {
-            return presenter
-        }
+        internal fun presenter(presenter: WelcomePresenter): Presenter = presenter
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {}

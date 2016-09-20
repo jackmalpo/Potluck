@@ -89,12 +89,12 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     //support libs
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile('com.android.support:support-fragment:24.2.0') {
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile('com.android.support:support-fragment:24.2.1') {
         exclude group: 'com.google.android.gms'
     }
 
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 
     //firebase
@@ -154,6 +154,6 @@ dependencies {
     kaptTest 'com.google.dagger:dagger-compiler:2.6.1'
 
 
-    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
 }
 apply plugin: 'com.google.gms.google-services'

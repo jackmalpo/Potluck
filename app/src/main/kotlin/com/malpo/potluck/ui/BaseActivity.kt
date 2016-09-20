@@ -2,7 +2,7 @@ package com.malpo.potluck.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.malpo.potluck.di.DaggerHolder
+import com.malpo.potluck.PotluckApplication
 import com.malpo.potluck.di.component.ActivityComponent
 import com.malpo.potluck.di.component.ActivityStateComponent
 import com.trello.rxlifecycle.ActivityEvent
@@ -19,7 +19,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        stateComponent = lastCustomNonConfigurationInstance as ActivityStateComponent? ?: DaggerHolder.instance.component.newActivityState()
+        stateComponent = lastCustomNonConfigurationInstance as ActivityStateComponent? ?: PotluckApplication.component.newActivityState()
         component = stateComponent.onCreate(this)
 
         lifecycleSubject.onNext(ActivityEvent.CREATE)

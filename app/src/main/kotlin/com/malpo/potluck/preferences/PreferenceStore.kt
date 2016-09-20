@@ -16,7 +16,7 @@ open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
     }
 
 
-    fun getSpotifyGuestToken(): String {
+    fun getSpotifyGuestToken(): String? {
         return mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, "")
     }
 

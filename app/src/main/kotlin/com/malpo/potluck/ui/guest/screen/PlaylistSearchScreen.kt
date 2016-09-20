@@ -9,10 +9,7 @@ interface PlaylistSearchScreen {
 
     @Module
     class PresenterModule {
-        @Provides
-        internal fun presenter(presenter: PlaylistSearchPresenter): Presenter {
-            return presenter
-        }
+        @Provides internal fun presenter(presenter: PlaylistSearchPresenter): Presenter = presenter
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {}

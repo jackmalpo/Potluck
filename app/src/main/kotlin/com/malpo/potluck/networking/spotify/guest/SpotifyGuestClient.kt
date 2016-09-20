@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SpotifyGuestClient(private val service: SpotifyGuestService,
-                         private val prefs: PreferenceStore) {
+                         private val prefs: PreferenceStore){
 
     //use when don't need user to login
     fun getAnonToken(): Observable<Token> {
@@ -21,7 +21,7 @@ class SpotifyGuestClient(private val service: SpotifyGuestService,
                 }
     }
 
-    fun search(query: String): Observable<List<Track>> {
+    fun searchTrack(query: String): Observable<List<Track>> {
         val params = HashMap<String, String>()
         params.put("q", query)
         params.put("type", "track")

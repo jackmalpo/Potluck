@@ -10,11 +10,10 @@ interface HostLoginScreen {
     @Module
     class PresenterModule {
         @Provides
-        internal fun presenter(presenter: HostLoginPresenter): Presenter {
-            return presenter
-        }
+        internal fun presenter(presenter: HostLoginPresenter): Presenter = presenter
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {}
     interface View : ScreenView<View, Presenter> {}
+
 }
