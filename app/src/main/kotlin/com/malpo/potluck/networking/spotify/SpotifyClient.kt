@@ -1,4 +1,4 @@
-package com.malpo.potluck.networking.spotify.guest
+package com.malpo.potluck.networking.spotify
 
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
@@ -10,14 +10,14 @@ import java.util.*
 import javax.inject.Singleton
 
 @Singleton
-class SpotifyGuestClient(private val service: SpotifyGuestService,
-                         private val prefs: PreferenceStore){
+class SpotifyClient(private val service: SpotifyService,
+                    private val prefs: PreferenceStore){
 
     //use when don't need user to login
-    fun getAnonToken(): Observable<Token> {
-        return service.getAnonToken("Basic ${SpotifyCreds.ENCODED_CREDS}", "client_credentials")
+    fun getGuestToken(): Observable<Token> {
+        return service.getGuestToken("Basic ${SpotifyCreds.ENCODED_CREDS}", "client_credentials")
                 .doOnNext {
-                    prefs.setSpotifyGuestToken(it.accessToken)
+                    prefs.setSpotifyGuestToken().call(it.accessToken)
                 }
     }
 
@@ -25,7 +25,7 @@ class SpotifyGuestClient(private val service: SpotifyGuestService,
         val params = HashMap<String, String>()
         params.put("q", query)
         params.put("type", "track")
-        return service.searchTrack("Bearer ${prefs.getSpotifyGuestToken()}", params)
+        return service.searchTrack("Bearer ${prefs.spotifyGuestToken()}", params)
                 .map { it: TrackObject -> it.items.tracks }
     }
 }

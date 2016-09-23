@@ -1,39 +1,40 @@
 package com.malpo.potluck.preferences
 
 import android.content.SharedPreferences
+import com.jakewharton.rxrelay.BehaviorRelay
+import rx.Observable
+import rx.functions.Action1
 import javax.inject.Singleton
 
 
 @Singleton
 open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
 
-    open fun clearSharedPrefs() {
-        mSharedPreferences.edit().clear().apply()
+    private val guestToken = BehaviorRelay.create<String>()
+    private val hostToken = BehaviorRelay.create<String>()
+
+    fun spotifyGuestToken(): Observable<String> {
+        guestToken.call(mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, ""))
+        return guestToken.asObservable()
     }
 
-    open fun setSpotifyGuestToken(token: String) {
-        mSharedPreferences.edit().putString(SPOTIFY_GUEST_TOKEN, token).commit()
+    open fun setSpotifyGuestToken(): Action1<String> {
+        return Action1 { guest ->
+            mSharedPreferences.edit().putString(SPOTIFY_GUEST_TOKEN, guest).commit()
+            guestToken.call(guest)
+        }
     }
 
-
-    fun getSpotifyGuestToken(): String? {
-        return mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, "")
+    fun spotifyHostToken(): Observable<String> {
+        hostToken.call(mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, ""))
+        return hostToken.asObservable()
     }
 
-    fun clearSpotifyGuestToken() {
-        return mSharedPreferences.edit().remove(SPOTIFY_GUEST_TOKEN).apply()
-    }
-
-    fun setSpotifyHostToken(token: String) {
-        mSharedPreferences.edit().putString(SPOTIFY_HOST_TOKEN, token).commit()
-    }
-
-    fun getSpotifyHostToken(): String {
-        return mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, "")
-    }
-
-    fun clearSpotifyHostToken() {
-        mSharedPreferences.edit().remove(SPOTIFY_HOST_TOKEN).apply()
+    fun setSpotifyHostToken(): Action1<String> {
+        return Action1 { host ->
+            mSharedPreferences.edit().putString(SPOTIFY_HOST_TOKEN, host).commit()
+            hostToken.call(host)
+        }
     }
 
     companion object {

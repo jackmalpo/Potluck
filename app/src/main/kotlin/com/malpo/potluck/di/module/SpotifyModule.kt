@@ -1,10 +1,10 @@
 package com.malpo.potluck.di.module
 
 import com.malpo.potluck.BuildConfig
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestService
-import com.malpo.potluck.networking.spotify.host.SpotifyHostAuthenticationManager
+import com.malpo.potluck.networking.spotify.SpotifyGuestAuthenticator
+import com.malpo.potluck.networking.spotify.SpotifyClient
+import com.malpo.potluck.networking.spotify.SpotifyService
+import com.malpo.potluck.networking.spotify.SpotifyHostAuthenticationManager
 import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -65,15 +65,14 @@ class SpotifyModule {
     }
 
     @Provides
-    fun provideSpotifyGuestService(retrofit: Retrofit): SpotifyGuestService {
-        return retrofit.create(SpotifyGuestService::class.java)
+    fun provideSpotifyService(retrofit: Retrofit): SpotifyService {
+        return retrofit.create(SpotifyService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideSpotifyGuestClient(service: SpotifyGuestService,
-                                  prefs: PreferenceStore): SpotifyGuestClient {
-        return SpotifyGuestClient(service, prefs)
+    fun provideSpotifyClient(service: SpotifyService, prefs: PreferenceStore): SpotifyClient {
+        return SpotifyClient(service, prefs)
     }
 
     @Provides

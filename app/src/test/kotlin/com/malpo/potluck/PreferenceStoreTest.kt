@@ -38,7 +38,7 @@ class PreferenceStoreTest {
     @Test
     @Throws(Exception::class)
     fun setSpotifyGuestToken_setsSharedPref() {
-        preferenceStore.setSpotifyGuestToken("123")
+        preferenceStore.setSpotifyGuestToken().call("123")
         verify(mockEditor).putString(PreferenceStore.SPOTIFY_GUEST_TOKEN, "123")
     }
 }

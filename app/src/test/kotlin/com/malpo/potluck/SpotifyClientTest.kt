@@ -1,8 +1,8 @@
 package com.malpo.potluck
 
 import com.malpo.potluck.models.spotify.Token
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestService
+import com.malpo.potluck.networking.spotify.SpotifyClient
+import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
@@ -20,9 +20,9 @@ import rx.observers.TestSubscriber
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 @RunWith(JUnit4::class)
-class SpotifyGuestClientTest : BaseUnitTest() {
+class SpotifyClientTest : BaseUnitTest() {
 
-    lateinit var spotifyGuestClient: SpotifyGuestClient
+    lateinit var spotifyClient: SpotifyClient
 
     @Mock
     lateinit var mockPrefs : PreferenceStore
@@ -31,23 +31,23 @@ class SpotifyGuestClientTest : BaseUnitTest() {
     fun setup() {
         initMocks(this)
 
-        //setup mock SpotifyGuestService
-        val mockService = mock<SpotifyGuestService>()
-        whenever(mockService.getAnonToken(any(), any()))
+        //setup mock SpotifyService
+        val mockService = mock<SpotifyService>()
+        whenever(mockService.getGuestToken(any(), any()))
                 .thenReturn(Observable.just(
                         Token(accessToken = "123",
                                 expiresIn = 1,
                                 token_type = "thisKind")))
 
-        //create SpotifyGuestClient with mocked params
-        spotifyGuestClient = SpotifyGuestClient(mockService, mockPrefs)
+        //create SpotifyClient with mocked params
+        spotifyClient = SpotifyClient(mockService, mockPrefs)
     }
 
     @Test
     @Throws(Exception::class)
     fun getAnonToken_savesToPrefs() {
         val testSubscriber = TestSubscriber<Token>()
-        spotifyGuestClient.getAnonToken().subscribe(testSubscriber)
-        verify(mockPrefs).setSpotifyGuestToken(eq("123"))
+        spotifyClient.getGuestToken().subscribe(testSubscriber)
+        verify(mockPrefs).setSpotifyGuestToken().call(eq("123"))
     }
 }

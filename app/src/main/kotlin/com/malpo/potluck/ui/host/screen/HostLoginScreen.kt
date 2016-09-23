@@ -4,6 +4,7 @@ import com.malpo.potluck.ui.screen.ScreenPresenter
 import com.malpo.potluck.ui.screen.ScreenView
 import dagger.Module
 import dagger.Provides
+import rx.functions.Action1
 
 interface HostLoginScreen {
 
@@ -14,6 +15,8 @@ interface HostLoginScreen {
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {}
-    interface View : ScreenView<View, Presenter> {}
+    interface View : ScreenView<View, Presenter> {
+        fun showHeader() : Action1<Boolean>
+    }
 
 }

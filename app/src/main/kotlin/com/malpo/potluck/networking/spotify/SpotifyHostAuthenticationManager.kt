@@ -1,4 +1,4 @@
-package com.malpo.potluck.networking.spotify.host
+package com.malpo.potluck.networking.spotify
 
 import android.app.Activity
 import android.content.Context
@@ -33,13 +33,13 @@ class SpotifyHostAuthenticationManager(private val prefs: PreferenceStore) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type === AuthenticationResponse.Type.TOKEN) {
                 Timber.e(response.accessToken)
-                prefs.setSpotifyHostToken(response.accessToken)
+                prefs.setSpotifyHostToken().call(response.accessToken)
             }
         }
     }
 
     fun logout() {
         AuthenticationClient.clearCookies(context)
-        prefs.clearSpotifyHostToken()
+        prefs.setSpotifyGuestToken().call("")
     }
 }
