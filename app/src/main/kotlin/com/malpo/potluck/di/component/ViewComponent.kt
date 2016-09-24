@@ -7,6 +7,8 @@ import com.malpo.potluck.ui.guest.screen.PlaylistSearchScreen
 import com.malpo.potluck.ui.host.HostFragment
 import com.malpo.potluck.ui.host.login.HostLoginFragment
 import com.malpo.potluck.ui.host.login.screen.HostLoginScreen
+import com.malpo.potluck.ui.host.playlist_selection.PlaylistSelectionFragment
+import com.malpo.potluck.ui.host.playlist_selection.screen.PlaylistSelectionScreen
 import com.malpo.potluck.ui.host.screen.HostScreen
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.welcome.WelcomeFragment
@@ -20,6 +22,7 @@ import dagger.Subcomponent
         HostScreen.PresenterModule::class,
         HostLoginScreen.PresenterModule::class,
         PlaylistSearchScreen.PresenterModule::class,
+        PlaylistSelectionScreen.PresenterModule::class,
         ViewComponent.ScreenHolderModule::class,
         WelcomeScreen.PresenterModule::class
 ))
@@ -29,6 +32,7 @@ interface ViewComponent {
     fun inject(host: HostFragment)
     fun inject(hostLogin: HostLoginFragment)
     fun inject(playlistSearch: PlaylistSearchFragment)
+    fun inject(playlistSelection: PlaylistSelectionFragment)
     fun inject(welcome: WelcomeFragment)
 
 

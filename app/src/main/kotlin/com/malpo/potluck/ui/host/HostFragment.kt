@@ -6,6 +6,7 @@ import com.malpo.potluck.R
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.ui.PotluckActivity
 import com.malpo.potluck.ui.host.login.HostLoginFragment
+import com.malpo.potluck.ui.host.playlist_selection.PlaylistSelectionFragment
 import com.malpo.potluck.ui.host.screen.HostScreen
 import com.malpo.potluck.ui.screen.ScreenFragment
 import com.malpo.potluck.ui.screen.ScreenHolder
@@ -14,7 +15,8 @@ class HostFragment : ScreenFragment<HostScreen.Presenter, HostScreen.View, HostV
 
     var currentFragment: Fragment? = null
 
-    var loginFragment: HostLoginFragment? = null
+    var _loginFragment: HostLoginFragment? = null
+    var _playlistSelectionFragment: PlaylistSelectionFragment? = null
 
     override fun inject(component: ViewComponent) {
         component.inject(this)
@@ -30,6 +32,11 @@ class HostFragment : ScreenFragment<HostScreen.Presenter, HostScreen.View, HostV
                 HostScreen.Page.login.value -> {
                     view.updatePage().call(HostScreen.Page.login)
                     switchPage(loginFragment())
+                    return true
+                }
+                HostScreen.Page.playlist_selection.value -> {
+                    view.updatePage().call(HostScreen.Page.playlist_selection)
+                    switchPage(playlistSelectionFragment())
                     return true
                 }
                 else -> return false
@@ -73,5 +80,9 @@ class HostFragment : ScreenFragment<HostScreen.Presenter, HostScreen.View, HostV
         return clazz.cast(f)
     }
 
-    fun loginFragment(): HostLoginFragment = loginFragment ?: fragmentFrom(HostLoginFragment::class.java)
+    fun loginFragment(): HostLoginFragment
+            = _loginFragment ?: fragmentFrom(HostLoginFragment::class.java)
+
+    fun playlistSelectionFragment(): PlaylistSelectionFragment
+            = _playlistSelectionFragment ?: fragmentFrom(PlaylistSelectionFragment::class.java)
 }

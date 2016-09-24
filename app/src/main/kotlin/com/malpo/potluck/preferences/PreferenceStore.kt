@@ -14,7 +14,7 @@ open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
     private val hostToken = BehaviorRelay.create<String>()
 
     fun spotifyGuestToken(): Observable<String> {
-        guestToken.call(mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, ""))
+        guestToken.call(_spotifyGuestToken())
         return guestToken.asObservable()
     }
 
@@ -26,7 +26,7 @@ open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
     }
 
     fun spotifyHostToken(): Observable<String> {
-        hostToken.call(mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, ""))
+        hostToken.call(_spotifyHostToken())
         return hostToken.asObservable()
     }
 
@@ -35,6 +35,14 @@ open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
             mSharedPreferences.edit().putString(SPOTIFY_HOST_TOKEN, host).commit()
             hostToken.call(host)
         }
+    }
+
+    fun _spotifyHostToken() : String {
+        return mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, "")
+    }
+
+    fun _spotifyGuestToken() : String {
+        return mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, "")
     }
 
     companion object {

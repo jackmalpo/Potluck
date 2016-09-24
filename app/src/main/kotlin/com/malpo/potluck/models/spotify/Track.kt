@@ -2,9 +2,9 @@ package com.malpo.potluck.models.spotify
 
 import com.squareup.moshi.Json
 
-data class TrackObject(@Json(name = "tracks") val items: Items)
+data class TrackResponse(@Json(name = "tracks") val trackItems: TrackItems)
 
-data class Items(@Json(name = "items") val tracks: List<Track>)
+data class TrackItems(@Json(name = "trackItems") val tracks: List<Track>)
 
 data class Track(@Json(name = "album") val album: Album,
                  @Json(name = "artists") val artists: List<Artist>,

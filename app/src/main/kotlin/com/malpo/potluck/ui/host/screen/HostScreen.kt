@@ -13,7 +13,8 @@ interface HostScreen {
     }
 
     enum class Page constructor(val value: String) {
-        login("${prefix}_login")
+        login("${prefix}_login"),
+        playlist_selection("${prefix}_playlist_selection")
     }
 
     @Module
