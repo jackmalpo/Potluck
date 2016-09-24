@@ -1,10 +1,10 @@
-package com.malpo.potluck.ui.host
+package com.malpo.potluck.ui.host.login
 
 import android.content.Intent
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.ui.PotluckActivity
-import com.malpo.potluck.ui.host.screen.HostLoginPresenter
-import com.malpo.potluck.ui.host.screen.HostLoginScreen
+import com.malpo.potluck.ui.host.login.screen.HostLoginPresenter
+import com.malpo.potluck.ui.host.login.screen.HostLoginScreen
 import com.malpo.potluck.ui.screen.ScreenFragment
 
 class HostLoginFragment : ScreenFragment<HostLoginScreen.Presenter, HostLoginScreen.View, HostLoginViewAndroid>(), PotluckActivity.ActivityResultListener {

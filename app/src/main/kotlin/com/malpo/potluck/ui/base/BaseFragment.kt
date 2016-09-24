@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import com.malpo.potluck.di.component.ActivityStateComponent
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.ui.BaseActivity
-import com.malpo.potluck.ui.Page
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.trello.rxlifecycle.FragmentEvent
 import rx.subjects.BehaviorSubject
@@ -88,7 +87,7 @@ open class BaseFragment : Fragment(), ScreenHolder {
         super.onDetach()
     }
 
-    override fun goTo(page: Page): Boolean {
+    override fun goTo(page: String): Boolean {
         val a = activity
         val f = parentFragment
         when {

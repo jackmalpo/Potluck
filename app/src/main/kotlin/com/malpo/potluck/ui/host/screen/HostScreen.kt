@@ -6,17 +6,25 @@ import dagger.Module
 import dagger.Provides
 import rx.functions.Action1
 
-interface HostLoginScreen {
+interface HostScreen {
+
+    companion object {
+        val prefix = "host"
+    }
+
+    enum class Page constructor(val value: String) {
+        login("${prefix}_login")
+    }
 
     @Module
     class PresenterModule {
         @Provides
-        internal fun presenter(presenter: HostLoginPresenter): Presenter = presenter
+        internal fun presenter(presenter: HostPresenter): HostScreen.Presenter = presenter
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {}
     interface View : ScreenView<View, Presenter> {
-        fun showHeader() : Action1<Boolean>
+        fun updatePage(): Action1<Page>
     }
 
 }

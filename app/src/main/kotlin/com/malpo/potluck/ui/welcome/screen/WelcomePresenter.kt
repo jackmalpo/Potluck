@@ -11,7 +11,7 @@ open class WelcomePresenter @Inject constructor() : WelcomeScreen.Presenter {
 
     override fun bind(holder: ScreenHolder, x: WelcomeScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.wrap(
-                tie((x.hostClicks), { holder.goTo(Page.HOST_LOGIN) }),
-                tie((x.guestClicks), { holder.goTo(Page.PLAYLIST_SEARCH)}))
+                tie((x.hostClicks), { holder.goTo(Page.HOST.value) }),
+                tie((x.guestClicks), { holder.goTo(Page.GUEST.value)}))
     }
 }

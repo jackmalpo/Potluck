@@ -1,4 +1,4 @@
-package com.malpo.potluck.ui.host
+package com.malpo.potluck.ui.host.login
 
 import android.view.View
 import android.view.View.GONE
@@ -6,8 +6,8 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.malpo.potluck.R
 import com.malpo.potluck.misc.Knot
-import com.malpo.potluck.ui.host.screen.HostLoginScreen
-import com.malpo.potluck.ui.host.screen.HostLoginView
+import com.malpo.potluck.ui.host.login.screen.HostLoginScreen
+import com.malpo.potluck.ui.host.login.screen.HostLoginView
 import com.malpo.potluck.ui.screen.AndroidScreen
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.metova.slim.Slim
@@ -30,6 +30,6 @@ class HostLoginViewAndroid : HostLoginView(), AndroidScreen {
     }
 
     override fun showHeader(): Action1<Boolean> = Action1{
-        vis -> view.host_header.visibility = if(vis) VISIBLE else GONE
+        show -> view.host_header.visibility = if(show) VISIBLE else GONE
     }
 }

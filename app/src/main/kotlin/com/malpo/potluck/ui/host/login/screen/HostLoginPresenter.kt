@@ -1,4 +1,4 @@
-package com.malpo.potluck.ui.host.screen
+package com.malpo.potluck.ui.host.login.screen
 
 import android.app.Activity
 import android.content.Intent
@@ -8,13 +8,14 @@ import com.malpo.potluck.networking.spotify.SpotifyHostAuthenticationManager
 import com.malpo.potluck.preferences.PreferenceStore
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.wrap
+import timber.log.Timber
 import javax.inject.Inject
 
 open class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostAuthenticationManager, val prefs: PreferenceStore) : HostLoginScreen.Presenter {
     fun initAuth(activity: Activity) {
         prefs.spotifyHostToken().subscribe({ it ->
             when {
-                it.isNotBlank() -> timber.log.Timber.d("Already logged in.")
+                it.isNotBlank() -> Timber.d("Already logged in.")
                 else -> hostAuth.init(activity)
             }
         })
