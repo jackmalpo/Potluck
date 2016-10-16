@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import rx.observers.TestSubscriber
 
 @RunWith(JUnit4::class)
 class PreferenceStoreTest {
@@ -36,9 +37,32 @@ class PreferenceStoreTest {
     }
 
     @Test
-    @Throws(Exception::class)
-    fun setSpotifyGuestToken_setsSharedPref() {
+    fun setSpotifyGuestToken() {
         preferenceStore.setSpotifyGuestToken().call("123")
         verify(mockEditor).putString(PreferenceStore.SPOTIFY_GUEST_TOKEN, "123")
+    }
+
+    @Test
+    fun spotifyGuestToken() {
+        val ts = TestSubscriber<String>()
+        whenever(mockPrefs.getString(any(), any())).thenReturn("123")
+        preferenceStore.spotifyGuestToken().subscribe(ts)
+        verify(mockPrefs).getString(PreferenceStore.SPOTIFY_GUEST_TOKEN, "")
+        ts.assertReceivedOnNext(arrayListOf("123"))
+    }
+
+    @Test
+    fun setSpotifyHostToken() {
+        preferenceStore.setSpotifyHostToken().call("123")
+        verify(mockEditor).putString(PreferenceStore.SPOTIFY_HOST_TOKEN, "123")
+    }
+
+    @Test
+    fun spotifyHostToken() {
+        val ts = TestSubscriber<String>()
+        whenever(mockPrefs.getString(any(), any())).thenReturn("123")
+        preferenceStore.spotifyHostToken().subscribe(ts)
+        verify(mockPrefs).getString(PreferenceStore.SPOTIFY_HOST_TOKEN, "")
+        ts.assertReceivedOnNext(arrayListOf("123"))
     }
 }
