@@ -9,8 +9,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import rx.Observable
@@ -23,7 +21,6 @@ import kotlin.test.assertNotNull
 
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-@RunWith(JUnit4::class)
 class SpotifyClientTest : BaseUnitTest() {
 
     lateinit var spotifyClient: SpotifyClient
@@ -50,8 +47,8 @@ class SpotifyClientTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun getAnonToken_savesToPrefs() {
-        var result : String? = null
-        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it})
+        var result: String? = null
+        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it })
         val ts = TestSubscriber<Token>()
         spotifyClient.getGuestToken().subscribe(ts)
         assertNotNull(result)

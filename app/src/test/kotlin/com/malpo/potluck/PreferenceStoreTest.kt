@@ -7,13 +7,10 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import rx.observers.TestSubscriber
 
-@RunWith(JUnit4::class)
 class PreferenceStoreTest {
 
     @Mock
