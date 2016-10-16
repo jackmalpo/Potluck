@@ -6,8 +6,6 @@ import android.content.Intent
 import com.jakewharton.rxrelay.BehaviorRelay
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
-import com.malpo.potluck.networking.spotify.SpotifyClient
-import com.malpo.potluck.preferences.PreferenceStore
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -18,8 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SpotifyHostLoginAuthManager @Inject constructor(private val prefs: PreferenceStore,
-                                                      private val client: SpotifyClient) {
+class SpotifyHostLoginAuthManager @Inject constructor(private val client: SpotifyHostClient) {
 
     lateinit var context: Context
 
@@ -41,7 +38,7 @@ class SpotifyHostLoginAuthManager @Inject constructor(private val prefs: Prefere
         if (requestCode === SpotifyCreds.REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type === AuthenticationResponse.Type.CODE) {
-                client.hostToken(response.code)
+                client.token(response.code)
                         .subscribeOn(Schedulers.io())
                         .subscribe({ tokenRelay.call(it) }, { Timber.e(it) })
             }
