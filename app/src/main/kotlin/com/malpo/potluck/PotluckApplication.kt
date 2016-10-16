@@ -3,10 +3,7 @@ package com.malpo.potluck
 import android.app.Application
 import com.malpo.potluck.di.component.ApplicationComponent
 import com.malpo.potluck.di.component.DaggerApplicationComponent
-import com.malpo.potluck.di.module.AndroidModule
-import com.malpo.potluck.di.module.FirebaseModule
-import com.malpo.potluck.di.module.PreferencesModule
-import com.malpo.potluck.di.module.SpotifyModule
+import com.malpo.potluck.di.module.*
 import timber.log.Timber
 
 
@@ -28,6 +25,7 @@ class PotluckApplication : Application() {
                 .spotifyModule(SpotifyModule())
                 .preferencesModule(PreferencesModule())
                 .firebaseModule(FirebaseModule())
+                .utilModule(UtilModule())
                 .build()
     }
 

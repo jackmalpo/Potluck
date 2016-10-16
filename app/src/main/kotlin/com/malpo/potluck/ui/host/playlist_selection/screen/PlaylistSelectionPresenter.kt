@@ -23,6 +23,6 @@ class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyClient) 
     }
 
     override fun hostSpotifyPlaylists(): Observable<List<Playlist>> {
-        return client.getPlaylists().subscribeOn(Schedulers.io())
+        return client.playlists().subscribeOn(Schedulers.io())
     }
 }

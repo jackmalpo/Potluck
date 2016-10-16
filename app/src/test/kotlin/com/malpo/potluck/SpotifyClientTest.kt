@@ -34,7 +34,7 @@ class SpotifyClientTest : BaseUnitTest() {
 
         //setup mock SpotifyService
         val mockService = mock<SpotifyService>()
-        whenever(mockService.getGuestToken(any(), any()))
+        whenever(mockService.guestToken(any(), any()))
                 .thenReturn(Observable.just(
                         Token(accessToken = "123",
                                 expiresIn = 1,
@@ -47,10 +47,10 @@ class SpotifyClientTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun getAnonToken_savesToPrefs() {
-        var result: String? = null
+        var result: Token? = null
         whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it })
         val ts = TestSubscriber<Token>()
-        spotifyClient.getGuestToken().subscribe(ts)
+        spotifyClient.guestToken().subscribe(ts)
         assertNotNull(result)
     }
 }

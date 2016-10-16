@@ -12,7 +12,7 @@ class PlaylistSearchPresenter
 @Inject constructor(val client: SpotifyClient) : PlaylistSearchScreen.Presenter {
     override fun bind(holder: ScreenHolder, x: PlaylistSearchScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.wrap(
-                tie(client.getGuestToken().subscribeOn(Schedulers.io()))
+                tie(client.guestToken().subscribeOn(Schedulers.io()))
         )
     }
 }

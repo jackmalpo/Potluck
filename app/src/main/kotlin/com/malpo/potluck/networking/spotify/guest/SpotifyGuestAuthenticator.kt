@@ -1,4 +1,4 @@
-package com.malpo.potluck.networking.spotify
+package com.malpo.potluck.networking.spotify.guest
 
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
@@ -28,7 +28,7 @@ class SpotifyGuestAuthenticator(private val client: OkHttpClient,
             val accessTokenResponse = moshi.adapter(Token::class.java).fromJson(tokenCall.body().string())
             if (accessTokenResponse != null) {
                 token = accessTokenResponse.accessToken
-                prefs.setSpotifyGuestToken().call(token)
+                prefs.setSpotifyGuestToken().call(accessTokenResponse)
             }
         }
 

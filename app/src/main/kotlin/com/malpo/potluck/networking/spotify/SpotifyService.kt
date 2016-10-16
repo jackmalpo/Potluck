@@ -10,8 +10,11 @@ interface SpotifyService {
 
     @FormUrlEncoded
     @POST("https://accounts.spotify.com/api/token")
-    fun getGuestToken(@Header("Authorization") auth: String, @Field("grant_type") type: String): Observable<Token>
+    fun guestToken(@Header("Authorization") auth: String, @Field("grant_type") type: String): Observable<Token>
 
+    @FormUrlEncoded
+    @POST("https://accounts.spotify.com/api/token")
+    fun hostToken(@Header("Authorization") auth: String, @Field("grant_type") type: String, @Field("code") code: String, @Field("redirect_uri") redirect: String): Observable<Token>
 
     @GET("/v1/search")
     fun searchTrack(@Header("Authorization") auth: String, @QueryMap params: Map<String, String>): Observable<TrackResponse>

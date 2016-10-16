@@ -1,10 +1,8 @@
 package com.malpo.potluck.di.module
 
 import com.malpo.potluck.BuildConfig
-import com.malpo.potluck.networking.spotify.SpotifyGuestAuthenticator
-import com.malpo.potluck.networking.spotify.SpotifyClient
 import com.malpo.potluck.networking.spotify.SpotifyService
-import com.malpo.potluck.networking.spotify.SpotifyHostAuthenticationManager
+import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
 import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -15,20 +13,13 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Named
-import javax.inject.Singleton
 
 
-@Module(includes = arrayOf(PreferencesModule::class))
+@Module(includes = arrayOf(PreferencesModule::class, UtilModule::class))
 class SpotifyModule {
 
     internal companion object {
         private val BASE_URL = "https://api.spotify.com"
-    }
-
-    @Provides
-    @Singleton
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
     }
 
     @Provides
@@ -67,17 +58,5 @@ class SpotifyModule {
     @Provides
     fun provideSpotifyService(retrofit: Retrofit): SpotifyService {
         return retrofit.create(SpotifyService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSpotifyClient(service: SpotifyService, prefs: PreferenceStore): SpotifyClient {
-        return SpotifyClient(service, prefs)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSpotifyHostAuthManager(prefs: PreferenceStore): SpotifyHostAuthenticationManager {
-        return SpotifyHostAuthenticationManager(prefs)
     }
 }
