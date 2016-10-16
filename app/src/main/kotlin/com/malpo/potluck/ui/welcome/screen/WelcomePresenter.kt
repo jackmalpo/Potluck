@@ -7,7 +7,7 @@ import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.wrap
 import javax.inject.Inject
 
-open class WelcomePresenter @Inject constructor() : WelcomeScreen.Presenter {
+class WelcomePresenter @Inject constructor() : WelcomeScreen.Presenter {
 
     override fun bind(holder: ScreenHolder, x: WelcomeScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.wrap(

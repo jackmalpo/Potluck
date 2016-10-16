@@ -140,7 +140,7 @@ dependencies {
     compile 'com.spotify.sdk:spotify-auth:1.0.0-beta13@aar'
 
     /* ANDROID TEST */
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'org.mockito:mockito-core:2.2.3'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     kaptAndroidTest 'com.google.dagger:dagger-compiler:2.6.1'
@@ -151,8 +151,8 @@ dependencies {
 
     /* UNIT TEST */
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "com.nhaarman:mockito-kotlin:0.6.0"
+    testCompile 'org.mockito:mockito-core:2.2.3'
+    testCompile "com.nhaarman:mockito-kotlin:0.8.0"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     kaptTest 'com.google.dagger:dagger-compiler:2.6.1'
 

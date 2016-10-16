@@ -11,7 +11,7 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-open class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyClient) : PlaylistSelectionScreen.Presenter {
+class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyClient) : PlaylistSelectionScreen.Presenter {
 
     override fun bind(holder: ScreenHolder, x: PlaylistSelectionScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.wrap(

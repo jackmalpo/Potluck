@@ -4,7 +4,9 @@ import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyClient
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.preferences.PreferenceStore
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,7 +14,9 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
 import rx.Observable
+import rx.functions.Action1
 import rx.observers.TestSubscriber
+import kotlin.test.assertNotNull
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -25,7 +29,7 @@ class SpotifyClientTest : BaseUnitTest() {
     lateinit var spotifyClient: SpotifyClient
 
     @Mock
-    lateinit var mockPrefs : PreferenceStore
+    lateinit var mockPrefs: PreferenceStore
 
     @Before
     fun setup() {
@@ -46,8 +50,10 @@ class SpotifyClientTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun getAnonToken_savesToPrefs() {
-        val testSubscriber = TestSubscriber<Token>()
-        spotifyClient.getGuestToken().subscribe(testSubscriber)
-        verify(mockPrefs).setSpotifyGuestToken().call(eq("123"))
+        var result : String? = null
+        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it})
+        val ts = TestSubscriber<Token>()
+        spotifyClient.getGuestToken().subscribe(ts)
+        assertNotNull(result)
     }
 }

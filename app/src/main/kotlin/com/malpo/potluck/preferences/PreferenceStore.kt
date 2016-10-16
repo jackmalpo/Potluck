@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
+class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
 
     private val guestToken = BehaviorRelay.create<String>()
     private val hostToken = BehaviorRelay.create<String>()
@@ -18,7 +18,7 @@ open class PreferenceStore(internal var mSharedPreferences: SharedPreferences) {
         return guestToken.asObservable()
     }
 
-    open fun setSpotifyGuestToken(): Action1<String> {
+    fun setSpotifyGuestToken(): Action1<String> {
         return Action1 { guest ->
             mSharedPreferences.edit().putString(SPOTIFY_GUEST_TOKEN, guest).commit()
             guestToken.call(guest)

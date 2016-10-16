@@ -11,7 +11,7 @@ import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.wrap
 import javax.inject.Inject
 
-open class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostAuthenticationManager, val prefs: PreferenceStore) : HostLoginScreen.Presenter {
+class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostAuthenticationManager, val prefs: PreferenceStore) : HostLoginScreen.Presenter {
     fun initAuth(activity: Activity) {
         prefs.spotifyHostToken().subscribe { if (it.isBlank()) hostAuth.init(activity) }
     }
