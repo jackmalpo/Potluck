@@ -1,6 +1,7 @@
 package com.malpo.potluck
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 import com.malpo.potluck.di.component.ApplicationComponent
 import com.malpo.potluck.di.component.DaggerApplicationComponent
 import com.malpo.potluck.di.module.*
@@ -15,6 +16,7 @@ class PotluckApplication : Application() {
         component = createComponent()
 
         if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
             Timber.plant(Timber.DebugTree())
         }
     }
