@@ -16,7 +16,7 @@ class PotluckApplication : Application() {
         component = createComponent()
 
         if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
+            Stetho.initializeWithDefaults(this)
             Timber.plant(Timber.DebugTree())
         }
     }

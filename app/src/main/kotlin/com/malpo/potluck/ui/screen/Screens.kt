@@ -13,7 +13,7 @@ interface ScreenHolder {
     fun goTo(page: String): Boolean
 }
 
-fun <X> MutableCollection<X>.wrap(vararg items: X) {
+fun <X> MutableCollection<X>.tie(vararg items: X) {
     items.forEach { each -> this.add(each) }
 }
 
