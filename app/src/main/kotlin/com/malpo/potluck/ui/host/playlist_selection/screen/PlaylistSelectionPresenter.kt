@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyHostClient) : PlaylistSelectionScreen.Presenter {
 
-    override fun bind(holder: ScreenHolder, x: PlaylistSelectionScreen.View, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: PlaylistSelectionScreen.View,
+                      knots: MutableCollection<Knot<*>>) {
         knots.wrap(
                 tie(hostSpotifyPlaylists(), {
                     Observable.from(it)
@@ -22,7 +23,6 @@ class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyHostClie
         )
     }
 
-    override fun hostSpotifyPlaylists(): Observable<List<Playlist>> {
-        return client.playlists().subscribeOn(Schedulers.io())
-    }
+    override fun hostSpotifyPlaylists(): Observable<List<Playlist>> =
+            client.playlists().subscribeOn(Schedulers.io())
 }

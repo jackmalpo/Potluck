@@ -1,8 +1,8 @@
-package com.malpo.potluck
+package com.malpo.potluck.networking.spotify.guest
 
+import com.malpo.potluck.BaseUnitTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
-import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever

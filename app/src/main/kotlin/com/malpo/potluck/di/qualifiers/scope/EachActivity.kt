@@ -1,4 +1,4 @@
-package com.malpo.potluck.di.scope
+package com.malpo.potluck.di.qualifiers.scope
 
 import javax.inject.Scope
 

@@ -2,6 +2,8 @@ package com.malpo.potluck.di.module
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.malpo.potluck.BuildConfig
+import com.malpo.potluck.di.qualifiers.Guest
+import com.malpo.potluck.di.qualifiers.Host
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
 import com.malpo.potluck.networking.spotify.host.SpotifyHostAuthenticator
@@ -40,7 +42,7 @@ class SpotifyModule {
     }
 
     @Provides
-    @Named("guest")
+    @Guest
     fun provideGuestAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient,
                                      moshi: Moshi,
                                      prefs: PreferenceStore): OkHttpClient {
@@ -48,7 +50,7 @@ class SpotifyModule {
     }
 
     @Provides
-    @Named("host")
+    @Host
     fun provideHostAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient,
                                     moshi: Moshi,
                                     prefs: PreferenceStore): OkHttpClient {
@@ -56,26 +58,26 @@ class SpotifyModule {
     }
 
     @Provides
-    @Named("guest")
-    fun provideGuestRetrofit(@Named("guest") client: OkHttpClient, moshi: Moshi): Retrofit {
+    @Guest
+    fun provideGuestRetrofit(@Guest client: OkHttpClient, moshi: Moshi): Retrofit {
         return buildRetrofit(client, moshi)
     }
 
     @Provides
-    @Named("host")
-    fun provideHostRetrofit(@Named("host") client: OkHttpClient, moshi: Moshi): Retrofit {
+    @Host
+    fun provideHostRetrofit(@Host client: OkHttpClient, moshi: Moshi): Retrofit {
         return buildRetrofit(client, moshi)
     }
 
     @Provides
-    @Named("guest")
-    fun provideGuestSpotifyService(@Named("guest") retrofit: Retrofit): SpotifyService {
+    @Guest
+    fun provideGuestSpotifyService(@Guest retrofit: Retrofit): SpotifyService {
         return buildService(retrofit)
     }
 
     @Provides
-    @Named("host")
-    fun provideHostSpotifyService(@Named("host") retrofit: Retrofit): SpotifyService {
+    @Host
+    fun provideHostSpotifyService(@Host retrofit: Retrofit): SpotifyService {
         return buildService(retrofit)
     }
 

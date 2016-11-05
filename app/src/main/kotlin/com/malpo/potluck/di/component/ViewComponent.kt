@@ -1,6 +1,6 @@
 package com.malpo.potluck.di.component
 
-import com.malpo.potluck.di.scope.EachView
+import com.malpo.potluck.di.qualifiers.scope.EachView
 import com.malpo.potluck.ui.base.BaseFragment
 import com.malpo.potluck.ui.guest.PlaylistSearchFragment
 import com.malpo.potluck.ui.guest.screen.PlaylistSearchScreen

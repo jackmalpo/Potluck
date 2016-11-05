@@ -1,7 +1,7 @@
 package com.malpo.potluck.di.component
 
 import com.malpo.potluck.di.module.ActivityModule
-import com.malpo.potluck.di.scope.EachActivity
+import com.malpo.potluck.di.qualifiers.scope.EachActivity
 import com.malpo.potluck.ui.PotluckActivity
 import dagger.Subcomponent
 

@@ -2,7 +2,7 @@ package com.malpo.potluck.di.component
 
 import android.util.SparseArray
 import com.malpo.potluck.di.module.ActivityModule
-import com.malpo.potluck.di.scope.EachActivityState
+import com.malpo.potluck.di.qualifiers.scope.EachActivityState
 import com.malpo.potluck.ui.BaseActivity
 import com.malpo.potluck.ui.PotluckActivity
 import com.malpo.potluck.ui.screen.ScreenPresenter

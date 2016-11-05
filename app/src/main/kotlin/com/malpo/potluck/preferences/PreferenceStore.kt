@@ -43,16 +43,16 @@ class PreferenceStore(val mSharedPreferences: SharedPreferences, val moshi: Mosh
     }
 
     fun _spotifyHostRefreshToken(): String {
-        return mSharedPreferences.getString(SPOTIFY_HOST_REFRESH, "")
+        return mSharedPreferences.getString(SPOTIFY_HOST_REFRESH, "") ?: ""
     }
 
     fun _spotifyHostToken(): Token {
-        val token = mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, "")
+        val token = mSharedPreferences.getString(SPOTIFY_HOST_TOKEN, "") ?: ""
         return if (token.isNotBlank()) tokenAdapter.fromJson(token) else Token()
     }
 
     fun _spotifyGuestToken(): Token {
-        val token = mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, "")
+        val token = mSharedPreferences.getString(SPOTIFY_GUEST_TOKEN, "") ?: ""
         return if (token.isNotBlank()) tokenAdapter.fromJson(token) else Token()
     }
 

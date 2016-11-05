@@ -1,8 +1,7 @@
-package com.malpo.potluck
+package com.malpo.potluck.preferences
 
 import android.content.SharedPreferences
 import com.malpo.potluck.models.spotify.Token
-import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
@@ -44,7 +43,7 @@ class PreferenceStoreTest {
     @Test
     fun setSpotifyGuestToken() {
         preferenceStore.setSpotifyGuestToken().call(sampleToken)
-        verify(mockEditor).putString(eq(PreferenceStore.SPOTIFY_GUEST_TOKEN), eq(sampleTokenString))
+        verify(mockEditor).putString(eq(PreferenceStore.Companion.SPOTIFY_GUEST_TOKEN), eq(sampleTokenString))
     }
 
     @Test
@@ -52,14 +51,20 @@ class PreferenceStoreTest {
         val ts = TestSubscriber<Token>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
         preferenceStore.spotifyGuestToken().subscribe(ts)
-        verify(mockPrefs).getString(eq(PreferenceStore.SPOTIFY_GUEST_TOKEN), any())
+        verify(mockPrefs).getString(eq(PreferenceStore.Companion.SPOTIFY_GUEST_TOKEN), any())
         ts.assertReceivedOnNext(arrayListOf(sampleToken))
     }
 
     @Test
-    fun setSpotifyHostToken() {
+    fun setSpotifyHostToken_savesHostToken() {
         preferenceStore.setSpotifyHostToken().call(sampleToken)
-        verify(mockEditor).putString(eq(PreferenceStore.SPOTIFY_HOST_TOKEN), eq(sampleTokenString))
+        verify(mockEditor).putString(eq(PreferenceStore.Companion.SPOTIFY_HOST_TOKEN), eq(sampleTokenString))
+    }
+
+    @Test
+    fun setSpotifyHostToken_savesRefreshToken() {
+        preferenceStore.setSpotifyHostToken().call(sampleToken)
+        verify(mockEditor).putString(eq(PreferenceStore.Companion.SPOTIFY_HOST_REFRESH), eq(sampleToken.refreshToken))
     }
 
     @Test
@@ -67,7 +72,13 @@ class PreferenceStoreTest {
         val ts = TestSubscriber<Token>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
         preferenceStore.spotifyHostToken().subscribe(ts)
-        verify(mockPrefs).getString(eq(PreferenceStore.SPOTIFY_HOST_TOKEN), any())
+        verify(mockPrefs).getString(eq(PreferenceStore.Companion.SPOTIFY_HOST_TOKEN), any())
         ts.assertReceivedOnNext(arrayListOf(sampleToken))
+    }
+
+    @Test
+    fun getSpotifyHostRefreshToken() {
+        preferenceStore._spotifyHostRefreshToken()
+        verify(mockPrefs).getString(eq(PreferenceStore.Companion.SPOTIFY_HOST_REFRESH), any())
     }
 }

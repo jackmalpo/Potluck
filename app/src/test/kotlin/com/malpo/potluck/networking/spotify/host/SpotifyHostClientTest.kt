@@ -1,5 +1,6 @@
-package com.malpo.potluck
+package com.malpo.potluck.networking.spotify.host
 
+import com.malpo.potluck.BaseUnitTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.networking.spotify.host.SpotifyHostClient
