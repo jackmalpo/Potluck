@@ -1,48 +1,50 @@
 package com.malpo.potluck.networking.spotify.guest
 
-import com.malpo.potluck.BaseUnitTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations.initMocks
+import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.it
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
 import rx.Observable
 import rx.functions.Action1
 import rx.observers.TestSubscriber
 import kotlin.test.assertNotNull
 
-class SpotifyGuestClientTest : BaseUnitTest() {
+@RunWith(JUnitPlatform::class)
+class SpotifyGuestClientTest : Spek({
+    val mockService: SpotifyService = mock()
+    val mockPrefs: PreferenceStore = mock()
 
-    lateinit var spotifyClient: SpotifyGuestClient
+    describe("a spotify guest client") {
+        val spotifyClient = SpotifyGuestClient(mockService, mockPrefs)
 
-    @Mock
-    lateinit var mockPrefs: PreferenceStore
+        beforeEach {
+            reset(mockPrefs, mockService)
+            whenever(mockService.guestToken(any(), any()))
+                    .thenReturn(Observable.just(Token(accessToken = "123", expiresIn = 1, token_type = "thisKind")))
+        }
 
-    @Mock
-    lateinit var mockService: SpotifyService
+        it("should retrieve the guest token from the api") {
+            val ts = TestSubscriber<Token>()
+            spotifyClient.guestToken().subscribe(ts)
+        }
 
-    @Before
-    fun setup() {
-        initMocks(this)
-        //create SpotifyGuestClient with mocked params
-        spotifyClient = SpotifyGuestClient(mockService, mockPrefs)
+        it("should save the guest token after it's retrieved") {
+            var result: Token? = null
+            whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it })
+
+            val ts = TestSubscriber<Token>()
+
+            spotifyClient.guestToken().subscribe(ts)
+            assertNotNull(result)
+        }
     }
 
-    @Test
-    fun guestToken_savesToPrefs() {
-        whenever(mockService.guestToken(any(), any()))
-                .thenReturn(Observable.just(
-                        Token(accessToken = "123",
-                                expiresIn = 1,
-                                token_type = "thisKind")))
-        var result: Token? = null
-        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it })
-        val ts = TestSubscriber<Token>()
-        spotifyClient.guestToken().subscribe(ts)
-        assertNotNull(result)
-    }
-}
+})

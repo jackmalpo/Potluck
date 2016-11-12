@@ -1,68 +1,58 @@
 package com.malpo.potluck.networking.spotify.host
 
-import com.malpo.potluck.BaseUnitTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
-import com.malpo.potluck.networking.spotify.host.SpotifyHostClient
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations.initMocks
+import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
+import org.jetbrains.spek.api.dsl.it
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
 import rx.Observable
 import rx.functions.Action1
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class SpotifyHostClientTest : BaseUnitTest() {
+@RunWith(JUnitPlatform::class)
+class SpotifyHostClientTest : Spek({
+    val mockPrefs: PreferenceStore = mock()
+    val mockService: SpotifyService = mock()
 
-    lateinit var spotifyClient: SpotifyHostClient
+    describe("a spotify guest client") {
+        val spotifyClient = SpotifyHostClient(mockService, mockPrefs)
 
-    @Mock
-    lateinit var mockPrefs: PreferenceStore
+        beforeEach {
+            reset(mockPrefs, mockService)
+            whenever(mockService.hostToken(any(), any(), any(), any()))
+                    .thenReturn(Observable.just(
+                            Token(accessToken = "123",
+                                    expiresIn = 1,
+                                    token_type = "thisKind",
+                                    refreshToken = "ABC")))
+        }
 
-    @Mock
-    lateinit var mockService: SpotifyService
+        it("should retrieve the host token from the api") {
+            val ts = TestSubscriber<Token>()
+            spotifyClient.token("test_code").subscribe(ts)
+        }
 
-    @Before
-    fun setup() {
-        initMocks(this)
-        //create SpotifyGuestClient with mocked params
-        spotifyClient = SpotifyHostClient(mockService, mockPrefs)
+        it("should save the host token") {
+            var result: Token? = null
+            whenever(mockPrefs.setSpotifyHostToken()).thenReturn(Action1 { it -> result = it })
+
+            val ts = TestSubscriber<Token>()
+            spotifyClient.token("123").subscribe(ts)
+
+            assertNotNull(result)
+            assertEquals("ABC", result?.refreshToken)
+            assertEquals("123", result?.accessToken)
+            assertEquals(1, result?.expiresIn)
+            assertEquals("thisKind", result?.token_type)
+        }
     }
-
-    @Test
-    fun guestToken_savesToPrefs() {
-        whenever(mockService.hostToken(any(), any(), any(), any()))
-                .thenReturn(Observable.just(
-                        Token(accessToken = "123",
-                                expiresIn = 1,
-                                token_type = "thisKind",
-                                refreshToken = "ABC")))
-
-        var result: Token? = null
-        whenever(mockPrefs.setSpotifyHostToken()).thenReturn(Action1 { it -> result = it })
-        val ts = TestSubscriber<Token>()
-        spotifyClient.token("123").subscribe(ts)
-        assertNotNull(result)
-        assertEquals("ABC", result?.refreshToken)
-    }
-
-//    @Test
-//    fun playlists() {
-//        val ts = TestSubscriber<List<Playlist>>()
-//
-//        val playlist = arrayListOf(Playlist("123", arrayListOf(Image("123")), "123", "123"))
-//        val playlistResponse = PlaylistResponse(playlist)
-//        val playlistObservable = mock<Observable<PlaylistResponse>>()
-//
-//        whenever(playlistObservable.map(any<Func1<in PlaylistResponse, out List<Playlist>>>())).thenReturn(Observable.just(playlist))
-//        whenever(mockService.getPlaylists(any())).thenReturn(playlistObservable)
-//
-//        spotifyClient.playlists().subscribe(ts)
-//        ts.assertReceivedOnNext(arrayListOf(playlistResponse.items))
-//    }
-}
+})
