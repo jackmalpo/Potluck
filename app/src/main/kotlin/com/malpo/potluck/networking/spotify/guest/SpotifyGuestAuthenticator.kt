@@ -5,14 +5,19 @@ import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import okhttp3.*
+import timber.log.Timber
+import javax.inject.Singleton
 
+@Singleton
 class SpotifyGuestAuthenticator(private val client: OkHttpClient,
                                 private val moshi: Moshi,
                                 private val prefs: PreferenceStore) : Authenticator {
 
     private var token: String = ""
 
-    override fun authenticate(route: Route, response: Response): Request {
+    override fun authenticate(route: Route, response: Response): Request? {
+        Timber.d("Guest request failed... attempting authorization")
+
         val request = Request.Builder()
                 .url("https://accounts.spotify.com/api/token")
                 .header("Accept", "application/json")
@@ -30,10 +35,15 @@ class SpotifyGuestAuthenticator(private val client: OkHttpClient,
                 token = accessTokenResponse.accessToken
                 prefs.setSpotifyGuestToken().call(accessTokenResponse)
             }
+
+            Timber.d("Guest auth request successful, retrying previous request with new token")
+            return response.request().newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .build()
+        } else {
+            Timber.d("Guest auth attempt failed")
         }
 
-        return response.request().newBuilder()
-                .header("Authorization", "Bearer $token")
-                .build()
+        return null
     }
 }

@@ -3,13 +3,10 @@ package com.malpo.potluck.networking.spotify.host
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.jakewharton.rxrelay.BehaviorRelay
 import com.malpo.potluck.models.SpotifyCreds
-import com.malpo.potluck.models.spotify.Token
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
-import rx.Observable
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,8 +16,6 @@ import javax.inject.Singleton
 class SpotifyHostLoginAuthManager @Inject constructor(private val client: SpotifyHostClient) {
 
     lateinit var context: Context
-
-    var tokenRelay = BehaviorRelay.create<Token>()
 
     fun init(activity: Activity) {
         context = activity
@@ -38,15 +33,12 @@ class SpotifyHostLoginAuthManager @Inject constructor(private val client: Spotif
         if (requestCode === SpotifyCreds.REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type === AuthenticationResponse.Type.CODE) {
+                Timber.d("Received login response code, fetching token from api")
                 client.token(response.code)
                         .subscribeOn(Schedulers.io())
-                        .subscribe({ tokenRelay.call(it) }, { Timber.e(it) })
+                        .subscribe({ Timber.d("Logged in as host w/ token ${it.accessToken}") }, { Timber.e(it) })
             }
         }
-    }
-
-    fun tokenResult(): Observable<Token> {
-        return tokenRelay
     }
 
     fun logout() {

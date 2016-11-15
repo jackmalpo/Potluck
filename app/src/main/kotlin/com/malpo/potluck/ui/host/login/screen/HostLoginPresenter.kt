@@ -14,12 +14,18 @@ import javax.inject.Inject
 class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostLoginAuthManager, val prefs: PreferenceStore) : HostLoginScreen.Presenter {
 
     fun initAuth(activity: Activity) {
-        prefs.spotifyHostToken().subscribe { if (it.accessToken.isEmpty()) hostAuth.init(activity) }
+        prefs.hostLoggedIn()
+                .takeFirst { !it /* not logged in */ }
+                .subscribe {
+                    hostAuth.init(activity)
+                }
     }
 
     override fun bind(holder: ScreenHolder, x: HostLoginScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.tie(
-                hostAuth.tokenResult() to { holder.goTo(HostScreen.Page.playlist_selection.value) }
+                prefs.hostLoggedIn().takeFirst { it /* logged in */ } to {
+                    holder.goTo(HostScreen.Page.playlist_selection.value)
+                }
         )
     }
 
