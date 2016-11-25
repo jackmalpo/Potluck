@@ -1,44 +1,41 @@
 package com.malpo.potluck.networking.spotify.host
 
+import com.malpo.potluck.BaseSpekTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.preferences.PreferenceStore
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
-import org.jetbrains.spek.api.Spek
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
-import rx.Observable
 import rx.functions.Action1
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@RunWith(JUnitPlatform::class)
-class SpotifyHostClientTest : Spek({
+class SpotifyHostClientTest : BaseSpekTest({
     val mockPrefs: PreferenceStore = mock()
-    val mockService: SpotifyService = mock()
+    val mockService: SpotifyService = testComponent.hostSpotifyService()
+    val mockWebServer: MockWebServer = testComponent.mockWebServer()
+    val sampleToken = Token(accessToken = "123", expiresIn = 1, token_type = "thisKind", refreshToken = "ABC")
 
     describe("a spotify guest client") {
         val spotifyClient = SpotifyHostClient(mockService, mockPrefs)
 
         beforeEach {
-            reset(mockPrefs, mockService)
-            whenever(mockService.hostToken(any(), any(), any(), any()))
-                    .thenReturn(Observable.just(
-                            Token(accessToken = "123",
-                                    expiresIn = 1,
-                                    token_type = "thisKind",
-                                    refreshToken = "ABC")))
+            reset(mockPrefs)
+            mockWebServer.enqueue(MockResponse()
+                    .setResponseCode(200)
+                    .setBody(testComponent.moshi().adapter(Token::class.java).toJson(sampleToken)))
         }
 
         it("should retrieve the host token from the api") {
             val ts = TestSubscriber<Token>()
             spotifyClient.token("test_code").subscribe(ts)
+            ts.assertReceivedOnNext(listOf(sampleToken))
         }
 
         it("should save the host token") {
@@ -54,5 +51,6 @@ class SpotifyHostClientTest : Spek({
             assertEquals(1, result?.expiresIn)
             assertEquals("thisKind", result?.token_type)
         }
+
     }
 })

@@ -1,5 +1,6 @@
 package com.malpo.potluck.networking.spotify.guest
 
+import com.malpo.potluck.BaseSpekTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.preferences.PreferenceStore
@@ -7,7 +8,6 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
-import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.junit.platform.runner.JUnitPlatform
@@ -18,7 +18,7 @@ import rx.observers.TestSubscriber
 import kotlin.test.assertNotNull
 
 @RunWith(JUnitPlatform::class)
-class SpotifyGuestClientTest : Spek({
+class SpotifyGuestClientTest : BaseSpekTest({
     val mockService: SpotifyService = mock()
     val mockPrefs: PreferenceStore = mock()
 

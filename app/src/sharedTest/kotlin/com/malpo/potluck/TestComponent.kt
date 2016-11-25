@@ -1,11 +1,26 @@
 package com.malpo.potluck
 
+import android.content.Context
 import com.malpo.potluck.di.component.BaseComponent
+import com.malpo.potluck.di.module.UtilModule
+import com.malpo.potluck.di.qualifiers.Guest
+import com.malpo.potluck.di.qualifiers.Host
+import com.malpo.potluck.networking.spotify.SpotifyService
+import com.squareup.moshi.Moshi
 import dagger.Component
+import okhttp3.mockwebserver.MockWebServer
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(TestModule::class))
+@Component(modules = arrayOf(TestSpotifyModule::class, UtilModule::class))
 interface TestComponent : BaseComponent {
-    fun inject(baseUnitTest: BaseUnitTest)
+    @Guest fun guestSpotifyService(): SpotifyService
+
+    @Host fun hostSpotifyService(): SpotifyService
+
+    fun moshi(): Moshi
+
+    fun mockWebServer(): MockWebServer
+
+    fun context(): Context
 }
