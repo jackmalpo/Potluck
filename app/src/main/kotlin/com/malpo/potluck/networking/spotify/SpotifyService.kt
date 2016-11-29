@@ -7,7 +7,7 @@ import retrofit2.http.*
 import rx.Observable
 
 interface SpotifyService {
-
+    
     @FormUrlEncoded
     @POST("https://accounts.spotify.com/api/token")
     fun guestToken(@Header("Authorization") auth: String, @Field("grant_type") type: String): Observable<Token>

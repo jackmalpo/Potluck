@@ -16,10 +16,6 @@ class TestSpotifyModule : SpotifyModule() {
 
     val mockWebServer = MockWebServer()
 
-    init {
-        mockWebServer.start()
-    }
-
     @Provides
     @Singleton
     fun provideMockWebServer(): MockWebServer = mockWebServer

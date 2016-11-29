@@ -6,41 +6,56 @@ import com.malpo.potluck.models.spotify.Playlist
 import com.malpo.potluck.models.spotify.PlaylistResponse
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
-import com.malpo.potluck.preferences.PreferenceStore
-import com.nhaarman.mockito_kotlin.reset
+import com.malpo.potluck.queueAuthFailure
+import com.malpo.potluck.queueSuccessfulResponse
 import com.nhaarman.mockito_kotlin.whenever
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
+
 
 class SpotifyHostClientTest : BaseSpekTest({
-    val mockPrefs: PreferenceStore = testComponent.preferenceStore()
-    val mockService: SpotifyService = testComponent.hostSpotifyService()
-    val mockWebServer: MockWebServer = testComponent.mockWebServer()
-    val sampleToken = Token(accessToken = "123", expiresIn = 1, token_type = "thisKind", refreshToken = "ABC")
 
     describe("a spotify guest client") {
-        val spotifyClient = SpotifyHostClient(mockService, mockPrefs)
-
-        beforeEach {
-            reset(mockPrefs)
-//            val type = Types.newParameterizedType(List::class.java, Token::class.java)
-            mockWebServer.enqueue(MockResponse()
-                    .setResponseCode(401)
-                    .setBody(testComponent.moshi()
-                            .adapter(PlaylistResponse::class.java)
-                            .toJson(PlaylistResponse(
-                                    listOf(Playlist(id = "1",
-                                            images = listOf(Image("123")),
-                                            name = "Hey", uri = "123"))))))
-        }
 
         it("should retrieve a list of playlists from the api") {
+            SpotifyService.TOKEN_ENDPOINT = "TEST"
+            val spotifyClient = SpotifyHostClient(testComponent.getHostSpotifyService(), mockPrefStore())
+
+            whenever(mockPrefStore()._spotifyHostToken()).thenReturn(Token(accessToken = "123"))
+
+            val listOfPlaylist = listOf(Playlist("1", listOf(Image("123")), "Hey", "123"))
+
+            mockWebServer().queueSuccessfulResponse(moshi().adapter(PlaylistResponse::class.java)
+                    .toJson(PlaylistResponse(listOfPlaylist)))
+
             val ts = TestSubscriber<List<Playlist>>()
-            whenever(mockPrefs._spotifyHostToken()).thenReturn(Token(accessToken = "123"))
             spotifyClient.playlists().subscribe(ts)
+            ts.assertReceivedOnNext(listOf(listOfPlaylist))
+
+            assertEquals("/v1/me/playlists", mockWebServer().takeRequest().path)
+        }
+
+        it("should reauthorize on 401 response") {
+            val spotifyClient = SpotifyHostClient(testComponent.getHostSpotifyService(), mockPrefStore())
+
+            whenever(mockPrefStore()._spotifyHostToken()).thenReturn(Token(accessToken = "123"))
+
+            val listOfPlaylist = listOf(Playlist("1", listOf(Image("123")), "Hey", "123"))
+
+            mockWebServer().queueAuthFailure(moshi().adapter(PlaylistResponse::class.java)
+                    .toJson(PlaylistResponse(listOfPlaylist)))
+
+            val ts = TestSubscriber<List<Playlist>>()
+            spotifyClient.playlists().subscribe(ts)
+
+            assertEquals("/v1/me/playlists", mockWebServer().takeRequest().path)
+
+
+
+
+            ts.assertReceivedOnNext(listOf(listOfPlaylist))
         }
 
 //        it("should retrieve the host token from the api") {
