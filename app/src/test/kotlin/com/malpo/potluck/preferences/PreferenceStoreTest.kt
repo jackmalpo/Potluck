@@ -17,7 +17,7 @@ import rx.observers.TestSubscriber
 class PreferenceStoreTest : BaseSpekTest({
     val mockPrefs: SharedPreferences = mock()
     val mockEditor: SharedPreferences.Editor = mock()
-    val moshi: Moshi = testComponent.getMoshi()
+    val moshi: Moshi = testComponent.moshi()
     val sampleToken = Token(accessToken = "123", expiresIn = 1, scope = "Shrug", refreshToken = "456", token_type = "Normal")
     val sampleTokenString = moshi.adapter(Token::class.java).toJson(sampleToken)
 

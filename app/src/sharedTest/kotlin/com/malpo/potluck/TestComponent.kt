@@ -4,7 +4,9 @@ import android.content.Context
 import com.malpo.potluck.di.component.BaseComponent
 import com.malpo.potluck.di.qualifiers.Guest
 import com.malpo.potluck.di.qualifiers.Host
+import com.malpo.potluck.di.qualifiers.SpotifyToken
 import com.malpo.potluck.networking.spotify.SpotifyService
+import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.preferences.PreferenceStore
 import com.squareup.moshi.Moshi
 import dagger.Component
@@ -14,15 +16,17 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(TestSpotifyModule::class))
 interface TestComponent : BaseComponent {
-    @Guest fun getGuestSpotifyService(): SpotifyService
+    @Guest fun guest(): SpotifyService
 
-    @Host fun getHostSpotifyService(): SpotifyService
+    @Host fun host(): SpotifyService
 
-    fun getMockWebServer(): MockWebServer
+    @SpotifyToken fun token(): SpotifyTokenService
 
-    fun getPreferenceStore(): PreferenceStore
+    fun mockWebServer(): MockWebServer
 
-    fun getMoshi(): Moshi
+    fun preferenceStore(): PreferenceStore
 
-    fun getContext(): Context
+    fun moshi(): Moshi
+
+    fun context(): Context
 }

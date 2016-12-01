@@ -5,7 +5,6 @@ import com.malpo.potluck.models.spotify.Image
 import com.malpo.potluck.models.spotify.Playlist
 import com.malpo.potluck.models.spotify.PlaylistResponse
 import com.malpo.potluck.models.spotify.Token
-import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.queueAuthFailure
 import com.malpo.potluck.queueSuccessfulResponse
 import com.nhaarman.mockito_kotlin.whenever
@@ -20,8 +19,7 @@ class SpotifyHostClientTest : BaseSpekTest({
     describe("a spotify guest client") {
 
         it("should retrieve a list of playlists from the api") {
-            SpotifyService.TOKEN_ENDPOINT = "TEST"
-            val spotifyClient = SpotifyHostClient(testComponent.getHostSpotifyService(), mockPrefStore())
+            val spotifyClient = SpotifyHostClient(testComponent.host(), testComponent.token(), mockPrefStore())
 
             whenever(mockPrefStore()._spotifyHostToken()).thenReturn(Token(accessToken = "123"))
 
@@ -38,7 +36,7 @@ class SpotifyHostClientTest : BaseSpekTest({
         }
 
         it("should reauthorize on 401 response") {
-            val spotifyClient = SpotifyHostClient(testComponent.getHostSpotifyService(), mockPrefStore())
+            val spotifyClient = SpotifyHostClient(testComponent.host(), testComponent.token(), mockPrefStore())
 
             whenever(mockPrefStore()._spotifyHostToken()).thenReturn(Token(accessToken = "123"))
 
@@ -63,10 +61,10 @@ class SpotifyHostClientTest : BaseSpekTest({
 //        }
 //
 //        it("should save the host token") {
-//            var result: Token? = null
+//            var result: SpotifyToken? = null
 //            whenever(mockPrefs.setSpotifyHostToken()).thenReturn(Action1 { it -> result = it })
 //
-////            val ts = TestSubscriber<Token>()
+////            val ts = TestSubscriber<SpotifyToken>()
 //            spotifyClient.token("123").subscribe()
 //
 //            assertNotNull(result)

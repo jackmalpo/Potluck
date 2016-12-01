@@ -10,6 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SpotifyGuestAuthenticator(private val client: OkHttpClient,
+                                private val tokenBaseUrl: String,
                                 private val moshi: Moshi,
                                 private val prefs: PreferenceStore) : Authenticator {
 
@@ -19,7 +20,7 @@ class SpotifyGuestAuthenticator(private val client: OkHttpClient,
         Timber.d("Guest request failed... attempting authorization")
 
         val request = Request.Builder()
-                .url("https://accounts.spotify.com/api/token")
+                .url("$tokenBaseUrl/api/token")
                 .header("Accept", "application/json")
                 .header("Authorization", "Basic ${SpotifyCreds.ENCODED_CREDS}")
                 .post(FormBody.Builder()

@@ -1,11 +1,13 @@
 package com.malpo.potluck.networking.spotify.guest
 
 import com.malpo.potluck.di.qualifiers.Guest
+import com.malpo.potluck.di.qualifiers.SpotifyToken
 import com.malpo.potluck.models.SpotifyCreds
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.models.spotify.Track
 import com.malpo.potluck.models.spotify.TrackResponse
 import com.malpo.potluck.networking.spotify.SpotifyService
+import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.preferences.PreferenceStore
 import rx.Observable
 import javax.inject.Inject
@@ -13,11 +15,12 @@ import javax.inject.Singleton
 
 @Singleton
 class SpotifyGuestClient @Inject constructor(@Guest private val service: SpotifyService,
+                                             @SpotifyToken private val tokenService: SpotifyTokenService,
                                              private val prefs: PreferenceStore) {
 
     //use when don't need user to login
     fun guestToken(): Observable<Token> {
-        return service.guestToken("Basic ${SpotifyCreds.ENCODED_CREDS}", "client_credentials")
+        return tokenService.guestToken("Basic ${SpotifyCreds.ENCODED_CREDS}", "client_credentials")
                 .doOnNext {
                     prefs.setSpotifyGuestToken().call(it)
                 }

@@ -39,10 +39,10 @@ open class BaseSpekTest(spec: Dsl.() -> Unit) : Spek({
                 .utilModule(UtilModule())
                 .build()
 
-        fun mockPrefStore(): PreferenceStore = testComponent.getPreferenceStore()
-        fun mockContext(): Context = testComponent.getContext()
-        fun mockWebServer(): MockWebServer = testComponent.getMockWebServer()
-        fun moshi(): Moshi = testComponent.getMoshi()
+        fun mockPrefStore(): PreferenceStore = testComponent.preferenceStore()
+        fun mockContext(): Context = testComponent.context()
+        fun mockWebServer(): MockWebServer = testComponent.mockWebServer()
+        fun moshi(): Moshi = testComponent.moshi()
     }
 }
 

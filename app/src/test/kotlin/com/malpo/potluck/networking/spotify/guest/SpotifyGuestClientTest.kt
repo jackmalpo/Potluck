@@ -3,6 +3,7 @@ package com.malpo.potluck.networking.spotify.guest
 import com.malpo.potluck.BaseSpekTest
 import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
+import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -20,14 +21,15 @@ import kotlin.test.assertNotNull
 @RunWith(JUnitPlatform::class)
 class SpotifyGuestClientTest : BaseSpekTest({
     val mockService: SpotifyService = mock()
+    val mockTokenService: SpotifyTokenService = mock()
     val mockPrefs: PreferenceStore = mock()
 
     describe("a spotify guest client") {
-        val spotifyClient = SpotifyGuestClient(mockService, mockPrefs)
+        val spotifyClient = SpotifyGuestClient(mockService, mockTokenService, mockPrefs)
 
         beforeEach {
-            reset(mockPrefs, mockService)
-            whenever(mockService.guestToken(any(), any()))
+            reset(mockPrefs, mockTokenService, mockService)
+            whenever(mockTokenService.guestToken(any(), any()))
                     .thenReturn(Observable.just(Token(accessToken = "123", expiresIn = 1, token_type = "thisKind")))
         }
 
