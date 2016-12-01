@@ -1,7 +1,7 @@
 package com.malpo.potluck
 
-import android.content.Context
 import com.malpo.potluck.di.component.BaseComponent
+import com.malpo.potluck.di.module.SpotifyModule
 import com.malpo.potluck.di.qualifiers.Guest
 import com.malpo.potluck.di.qualifiers.Host
 import com.malpo.potluck.di.qualifiers.SpotifyToken
@@ -14,7 +14,7 @@ import okhttp3.mockwebserver.MockWebServer
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(TestSpotifyModule::class))
+@Component(modules = arrayOf(SpotifyModule::class))
 interface TestComponent : BaseComponent {
     @Guest fun guest(): SpotifyService
 
@@ -22,11 +22,9 @@ interface TestComponent : BaseComponent {
 
     @SpotifyToken fun token(): SpotifyTokenService
 
-    fun mockWebServer(): MockWebServer
-
-    fun preferenceStore(): PreferenceStore
-
     fun moshi(): Moshi
 
-    fun context(): Context
+    fun mockWebServer(): MockWebServer
+
+    fun mockPreferenceStore(): PreferenceStore
 }

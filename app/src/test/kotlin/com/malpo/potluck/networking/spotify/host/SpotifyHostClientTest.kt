@@ -1,6 +1,6 @@
 package com.malpo.potluck.networking.spotify.host
 
-import com.malpo.potluck.BaseSpekTest
+import com.malpo.potluck.BaseDaggerSpek
 import com.malpo.potluck.models.spotify.Image
 import com.malpo.potluck.models.spotify.Playlist
 import com.malpo.potluck.models.spotify.PlaylistResponse
@@ -14,10 +14,9 @@ import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 
-class SpotifyHostClientTest : BaseSpekTest({
+class SpotifyHostClientTest : BaseDaggerSpek({
 
     describe("a spotify guest client") {
-
         it("should retrieve a list of playlists from the api") {
             val spotifyClient = SpotifyHostClient(testComponent.host(), testComponent.token(), mockPrefStore())
 

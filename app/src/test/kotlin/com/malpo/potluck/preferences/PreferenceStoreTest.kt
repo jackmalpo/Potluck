@@ -1,11 +1,11 @@
 package com.malpo.potluck.preferences
 
 import android.content.SharedPreferences
-import com.malpo.potluck.BaseSpekTest
 import com.malpo.potluck.MockPreferenceUtil.Companion.setupPreferenceMocks
 import com.malpo.potluck.models.spotify.Token
 import com.nhaarman.mockito_kotlin.*
 import com.squareup.moshi.Moshi
+import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.junit.platform.runner.JUnitPlatform
@@ -14,10 +14,10 @@ import org.mockito.Mockito.reset
 import rx.observers.TestSubscriber
 
 @RunWith(JUnitPlatform::class)
-class PreferenceStoreTest : BaseSpekTest({
+class PreferenceStoreTest : Spek({
     val mockPrefs: SharedPreferences = mock()
     val mockEditor: SharedPreferences.Editor = mock()
-    val moshi: Moshi = testComponent.moshi()
+    val moshi: Moshi = Moshi.Builder().build()
     val sampleToken = Token(accessToken = "123", expiresIn = 1, scope = "Shrug", refreshToken = "456", token_type = "Normal")
     val sampleTokenString = moshi.adapter(Token::class.java).toJson(sampleToken)
 

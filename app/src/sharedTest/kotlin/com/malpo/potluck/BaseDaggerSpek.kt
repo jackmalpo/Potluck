@@ -1,8 +1,7 @@
 package com.malpo.potluck
 
-import android.content.Context
 import com.malpo.potluck.di.module.AndroidModule
-import com.malpo.potluck.di.module.UtilModule
+import com.malpo.potluck.di.module.SpotifyModule
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.mock
 import com.squareup.moshi.Moshi
@@ -14,7 +13,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
-open class BaseSpekTest(spec: Dsl.() -> Unit) : Spek({
+open class BaseDaggerSpek(spec: Dsl.() -> Unit) : Spek({
 
     beforeEach {
         testComponent = buildComponent()
@@ -32,15 +31,15 @@ open class BaseSpekTest(spec: Dsl.() -> Unit) : Spek({
     companion object {
         var testComponent: TestComponent = buildComponent()
 
-        fun buildComponent(): TestComponent = DaggerTestComponent.builder()
-                .androidModule(AndroidModule(mock()))
-                .preferencesModule(TestPreferencesModule())
-                .testSpotifyModule(TestSpotifyModule())
-                .utilModule(UtilModule())
-                .build()
+        fun buildComponent(): TestComponent {
+            SpotifyModule.IS_TEST = true
+            return DaggerTestComponent.builder()
+                    .androidModule(AndroidModule(mock()))
+                    .preferencesModule(MockPreferencesModule())
+                    .build()
+        }
 
-        fun mockPrefStore(): PreferenceStore = testComponent.preferenceStore()
-        fun mockContext(): Context = testComponent.context()
+        fun mockPrefStore(): PreferenceStore = testComponent.mockPreferenceStore()
         fun mockWebServer(): MockWebServer = testComponent.mockWebServer()
         fun moshi(): Moshi = testComponent.moshi()
     }

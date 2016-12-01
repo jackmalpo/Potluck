@@ -6,7 +6,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AndroidModule(private val context: Context) {
+class AndroidModule(private val context: Context, private val isTest: Boolean = false) {
 
     @Provides
     @Singleton
