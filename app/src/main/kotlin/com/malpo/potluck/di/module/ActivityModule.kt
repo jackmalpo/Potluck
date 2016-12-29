@@ -9,15 +9,8 @@ import dagger.Provides
 @Module
 class ActivityModule(private val activity: BaseActivity) {
 
-    @Provides
-    @EachActivity
-    fun provideContext(activity: BaseActivity): Context {
-        return activity
-    }
+    @Provides @EachActivity fun provideContext(activity: BaseActivity): Context = activity
 
-    @Provides
-    @EachActivity
-    fun provideActivity(): BaseActivity {
-        return activity
-    }
+    @Provides @EachActivity
+    fun provideActivity(): BaseActivity = activity
 }

@@ -2,10 +2,7 @@ package com.malpo.potluck.di.module
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.malpo.potluck.BuildConfig
-import com.malpo.potluck.di.qualifiers.Guest
-import com.malpo.potluck.di.qualifiers.Host
-import com.malpo.potluck.di.qualifiers.MockWeb
-import com.malpo.potluck.di.qualifiers.SpotifyToken
+import com.malpo.potluck.di.qualifiers.*
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestAuthenticator
@@ -23,13 +20,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Named
 
 
-@Module(includes = arrayOf(MockWebServerModule::class, PreferencesModule::class, UtilModule::class))
+@Module(includes = arrayOf(AndroidModule::class,
+        MockWebServerModule::class,
+        PreferencesModule::class,
+        UtilModule::class))
 open class SpotifyModule {
 
     companion object {
         private val STANDARD_BASE_URL = "https://api.spotify.com"
         private val TOKEN_BASE_URL = "https://accounts.spotify.com"
-        var IS_TEST = false
     }
 
     @Provides @Named("pre_auth") fun provideNoAuthOkHttpClient(): OkHttpClient {
@@ -45,8 +44,8 @@ open class SpotifyModule {
     }
 
     /* HOST */
-    @Provides @Host open fun provideHostBaseUrl(@MockWeb mockWebUrl: String): String {
-        return if (IS_TEST) mockWebUrl else STANDARD_BASE_URL
+    @Provides @Host open fun provideHostBaseUrl(@MockWeb mockWebUrl: String, @IsTest isTest: Boolean): String {
+        return if (isTest) mockWebUrl else STANDARD_BASE_URL
     }
 
     @Provides @Host fun provideHostAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient,
@@ -64,8 +63,8 @@ open class SpotifyModule {
     }
 
     /* GUEST */
-    @Provides @Guest open fun provideGuestBaseUrl(@MockWeb mockWebUrl: String): String {
-        return if (IS_TEST) mockWebUrl else STANDARD_BASE_URL
+    @Provides @Guest open fun provideGuestBaseUrl(@MockWeb mockWebUrl: String, @IsTest isTest: Boolean): String {
+        return if (isTest) mockWebUrl else STANDARD_BASE_URL
     }
 
     @Provides @Guest fun provideGuestAuthOkHttpClient(@Named("pre_auth") okHttpClient: OkHttpClient,
@@ -84,8 +83,8 @@ open class SpotifyModule {
     }
 
     /* TOKEN */
-    @Provides @SpotifyToken open fun provideTokenBaseUrl(@MockWeb mockWebUrl: String): String {
-        return if (IS_TEST) mockWebUrl else TOKEN_BASE_URL
+    @Provides @SpotifyToken open fun provideTokenBaseUrl(@MockWeb mockWebUrl: String, @IsTest isTest: Boolean): String {
+        return if (isTest) mockWebUrl else TOKEN_BASE_URL
     }
 
     @Provides @SpotifyToken fun provideTokenAuth(@Named("pre_auth") okHttpClient: OkHttpClient): OkHttpClient {

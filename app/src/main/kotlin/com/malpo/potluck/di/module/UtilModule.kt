@@ -8,10 +8,6 @@ import javax.inject.Singleton
 @Module
 class UtilModule {
 
-    @Provides
-    @Singleton
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
-    }
+    @Provides @Singleton fun provideMoshi(): Moshi = Moshi.Builder().build()
 
 }

@@ -14,7 +14,8 @@ class SpotifyHostAuthenticator(private val client: OkHttpClient,
                                private val moshi: Moshi,
                                private val prefs: PreferenceStore) : Authenticator {
 
-    private var token: String = ""
+    private var token = ""
+    private val creds = SpotifyCreds.ENCODED_CREDS
 
     override fun authenticate(route: Route, response: Response): Request? {
         Timber.d("Host request failed... attempting authorization")
@@ -22,7 +23,7 @@ class SpotifyHostAuthenticator(private val client: OkHttpClient,
         val request = Request.Builder()
                 .url("$tokenBaseUrl/api/token")
                 .header("Accept", "application/json")
-                .header("Authorization", "Basic ${SpotifyCreds.ENCODED_CREDS}")
+                .header("Authorization", "Basic $creds")
                 .post(FormBody.Builder()
                         .add("grant_type", "refresh_token")
                         .add("refresh_token", prefs._spotifyHostRefreshToken())
