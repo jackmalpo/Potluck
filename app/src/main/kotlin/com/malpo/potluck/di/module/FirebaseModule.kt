@@ -8,9 +8,5 @@ import javax.inject.Singleton
 @Module
 class FirebaseModule {
 
-    @Provides
-    @Singleton
-    fun provideFirebase(): Firebase {
-        return Firebase()
-    }
+    @Provides @Singleton fun provideFirebase(): Firebase = Firebase()
 }

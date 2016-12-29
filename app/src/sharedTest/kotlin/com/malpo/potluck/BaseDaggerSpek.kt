@@ -1,7 +1,6 @@
 package com.malpo.potluck
 
 import com.malpo.potluck.di.module.AndroidModule
-import com.malpo.potluck.di.module.SpotifyModule
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.mock
 import com.squareup.moshi.Moshi
@@ -32,9 +31,8 @@ open class BaseDaggerSpek(spec: Dsl.() -> Unit) : Spek({
         var testComponent: TestComponent = buildComponent()
 
         fun buildComponent(): TestComponent {
-            SpotifyModule.IS_TEST = true
             return DaggerTestComponent.builder()
-                    .androidModule(AndroidModule(mock()))
+                    .androidModule(AndroidModule(appContext = mock(), isTest = true))
                     .preferencesModule(MockPreferencesModule())
                     .build()
         }
