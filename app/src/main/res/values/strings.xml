@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Potluck</string>
+    <string name="continue_as_guest">Continue as guest</string>
+    <string name="continue_as_host">Host your playlist</string>
+    <string name="host">Host</string>
+    <string name="guest">Guest</string>
+    <string name="search_playlist">Search Playlist</string>
+    <string name="host_login">Logged in as host</string>
 </resources>
