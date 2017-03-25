@@ -10,9 +10,7 @@ import javax.inject.Singleton
 @Module(includes = arrayOf(AndroidModule::class, UtilModule::class))
 open class PreferencesModule {
 
-    @Provides
-    @Singleton
-    open fun providesPreferenceStore(context: Context, moshi: Moshi): PreferenceStore {
+    @Provides @Singleton open fun providesPreferenceStore(context: Context, moshi: Moshi): PreferenceStore {
         return PreferenceStore(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE), moshi)
     }
 
