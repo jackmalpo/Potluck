@@ -23,12 +23,4 @@ open class BaseDaggerTest {
                 .preferencesModule(MockPreferencesModule())
                 .build()
     }
-
-    fun mockPrefStore(): PreferenceStore = testComponent.mockPreferenceStore()
-    fun mockWebServer(): MockWebServer = testComponent.mockWebServer()
-    fun moshi(): Moshi = testComponent.moshi()
-
-    fun MockWebServer.queueSuccessfulResponse(body: String) = this.enqueue(MockResponse().setResponseCode(200).setBody(body))
-    fun MockWebServer.queueAuthFailure(body: String) = this.enqueue(MockResponse().setResponseCode(401).setBody(body))
-    fun MockWebServer.queueFailure(body: String) = this.enqueue(MockResponse().setResponseCode(500).setBody(body))
 }
