@@ -17,7 +17,7 @@ class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyHostClie
                       knots: MutableCollection<Knot<*>>) {
         knots.tie(
                 hostSpotifyPlaylists()
-                        to  { Observable.fromIterable(it).forEach { playlist -> Timber.d(playlist.name) } }
+                        to { Observable.fromIterable(it).forEach { playlist -> Timber.d(playlist.name) } }
         )
 
     }

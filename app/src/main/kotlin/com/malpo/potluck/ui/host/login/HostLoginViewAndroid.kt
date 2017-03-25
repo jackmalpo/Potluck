@@ -30,6 +30,7 @@ class HostLoginViewAndroid : HostLoginView(), AndroidScreen {
     }
 
     override fun showHeader(): Consumer<Boolean> = Consumer {
-        show -> view.host_header.visibility = if(show) VISIBLE else GONE
+        show ->
+        view.host_header.visibility = if (show) VISIBLE else GONE
     }
 }

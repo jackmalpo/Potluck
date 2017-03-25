@@ -16,7 +16,7 @@ interface HostLoginScreen {
 
     interface Presenter : ScreenPresenter<View, Presenter> {}
     interface View : ScreenView<View, Presenter> {
-        fun showHeader() : Consumer<Boolean>
+        fun showHeader(): Consumer<Boolean>
     }
 
 }

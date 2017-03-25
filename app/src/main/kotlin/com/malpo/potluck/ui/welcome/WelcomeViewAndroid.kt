@@ -22,7 +22,7 @@ class WelcomeViewAndroid : WelcomeView(), AndroidScreen {
 
     override fun bind(holder: ScreenHolder, x: WelcomeScreen.Presenter, knots: MutableCollection<Knot<*>>) {
         knots.tie(
-                view.host_button.clicks() to  hostClicks,
+                view.host_button.clicks() to hostClicks,
                 view.guest_button.clicks() to guestClicks
         )
     }

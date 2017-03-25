@@ -16,8 +16,9 @@ interface PlaylistSelectionScreen {
     }
 
     interface Presenter : ScreenPresenter<View, Presenter> {
-        fun hostSpotifyPlaylists() : Observable<List<Playlist>>
+        fun hostSpotifyPlaylists(): Observable<List<Playlist>>
     }
+
     interface View : ScreenView<View, Presenter> {}
 
 }
