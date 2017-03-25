@@ -1,16 +1,14 @@
 package com.malpo.potluck.extensions
 
-import com.trello.rxlifecycle.FragmentEvent
-import com.trello.rxlifecycle.RxLifecycle
-import rx.Observable
-import rx.subjects.BehaviorSubject
+
+import com.trello.rxlifecycle2.RxLifecycle
+import com.trello.rxlifecycle2.android.FragmentEvent
+import io.reactivex.Observable
+import io.reactivex.processors.BehaviorProcessor
+
 
 /**
  * Observable Extensions
  */
-fun <T> Observable<T>.bindToFragment(sub: BehaviorSubject<FragmentEvent>): Observable<T> =
-        compose(bindUntilEvent<T>(sub))
-
-fun <T> bindUntilEvent(sub: BehaviorSubject<FragmentEvent>): Observable.Transformer<T, T> {
-    return RxLifecycle.bindFragment(sub)
-}
+fun <T> Observable<T>.bindToFragment(sub: BehaviorProcessor<FragmentEvent>): Observable<T> =
+        compose(RxLifecycle.bindUntilEvent(sub.toObservable(), FragmentEvent.DESTROY))

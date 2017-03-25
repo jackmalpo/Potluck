@@ -9,7 +9,7 @@ import com.malpo.potluck.models.spotify.Token
 import com.malpo.potluck.networking.spotify.SpotifyService
 import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.preferences.PreferenceStore
-import rx.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +22,7 @@ class SpotifyHostClient @Inject constructor(@Host private val hostService: Spoti
         return tokenService.hostToken("Basic ${SpotifyCreds.ENCODED_CREDS}", "authorization_code", code,
                 "com.malpo.potluck://login")
                 .doOnNext {
-                    prefs.setSpotifyHostToken().call(it)
+                    prefs.setSpotifyHostToken().accept(it)
                 }
     }
 

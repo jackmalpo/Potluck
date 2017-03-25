@@ -65,6 +65,10 @@ android {
         test.java.srcDirs += sharedPackage
         androidtest.java.srcDirs += sharedPackage
     }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
 }
 
 kapt {
@@ -123,18 +127,23 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     //rx
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.2.9'
-    compile 'io.reactivex:rxkotlin:0.60.0'
-    compile 'com.trello:rxlifecycle:0.6.1'
-    compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:1.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.0'
+
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.0.1'
+
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+
+    compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
 
     //retrofit / okhttp
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.2.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     debugCompile 'com.squareup.retrofit2:retrofit-mock:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'

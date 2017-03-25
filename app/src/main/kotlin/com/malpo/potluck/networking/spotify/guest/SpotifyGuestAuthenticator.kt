@@ -34,7 +34,7 @@ class SpotifyGuestAuthenticator(private val client: OkHttpClient,
             val accessTokenResponse = moshi.adapter(Token::class.java).fromJson(tokenCall.body().string())
             if (accessTokenResponse != null) {
                 token = accessTokenResponse.accessToken
-                prefs.setSpotifyGuestToken().call(accessTokenResponse)
+                prefs.setSpotifyGuestToken().accept(accessTokenResponse)
             }
 
             Timber.d("Guest auth request successful, retrying previous request with new token")

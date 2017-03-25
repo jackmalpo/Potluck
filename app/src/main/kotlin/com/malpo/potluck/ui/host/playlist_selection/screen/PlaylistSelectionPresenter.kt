@@ -6,8 +6,8 @@ import com.malpo.potluck.models.spotify.Playlist
 import com.malpo.potluck.networking.spotify.host.SpotifyHostClient
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.tie
-import rx.Observable
-import rx.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class PlaylistSelectionPresenter @Inject constructor(val client: SpotifyHostClie
                       knots: MutableCollection<Knot<*>>) {
         knots.tie(
                 hostSpotifyPlaylists()
-                        to { Observable.from(it).forEach { playlist -> Timber.d(playlist.name) } }
+                        to  { Observable.fromIterable(it).forEach { playlist -> Timber.d(playlist.name) } }
         )
 
     }

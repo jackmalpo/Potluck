@@ -2,7 +2,7 @@ package com.malpo.potluck.ui.welcome
 
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding.view.clicks
+import com.jakewharton.rxbinding2.view.clicks
 import com.malpo.potluck.R
 import com.malpo.potluck.misc.Knot
 import com.malpo.potluck.misc.to
@@ -22,7 +22,7 @@ class WelcomeViewAndroid : WelcomeView(), AndroidScreen {
 
     override fun bind(holder: ScreenHolder, x: WelcomeScreen.Presenter, knots: MutableCollection<Knot<*>>) {
         knots.tie(
-                view.host_button.clicks() to hostClicks,
+                view.host_button.clicks() to  hostClicks,
                 view.guest_button.clicks() to guestClicks
         )
     }

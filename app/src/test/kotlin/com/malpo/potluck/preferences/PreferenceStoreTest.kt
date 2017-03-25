@@ -7,7 +7,6 @@ import com.nhaarman.mockito_kotlin.*
 import com.squareup.moshi.Moshi
 import org.junit.Before
 import org.junit.Test
-import rx.observers.TestSubscriber
 
 class PreferenceStoreTest {
     val mockPrefs: SharedPreferences = mock()
@@ -24,50 +23,46 @@ class PreferenceStoreTest {
     }
 
     @Test fun setGuestToken_savesToken() {
-        preferenceStore.setSpotifyGuestToken().call(sampleToken)
+        preferenceStore.setSpotifyGuestToken().accept(sampleToken)
         verify(mockEditor).putString(eq(PreferenceStore.SPOTIFY_GUEST_TOKEN), eq(sampleTokenString))
     }
 
     @Test fun guestToken_onTokenUpdated_emitsObservableOfUpdatedToken() {
-        val ts = TestSubscriber<Token>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
-        preferenceStore.spotifyGuestToken().subscribe(ts)
+        preferenceStore.spotifyGuestToken().test()
+                .assertValue(sampleToken)
         verify(mockPrefs).getString(eq(PreferenceStore.SPOTIFY_GUEST_TOKEN), any())
-        ts.assertReceivedOnNext(arrayListOf(sampleToken))
     }
 
     @Test fun guestLoggedIn_onTokenSaved_updatesLoginState() {
         whenever(mockPrefs.getBoolean(any(), any())).thenReturn(false)
-        val ts = TestSubscriber<Boolean>()
-        preferenceStore.guestLoggedIn().subscribe(ts)
-        preferenceStore.setSpotifyGuestToken().call(sampleToken)
-        ts.assertReceivedOnNext(arrayListOf(false, true))
+        val observer = preferenceStore.guestLoggedIn().test()
+        preferenceStore.setSpotifyGuestToken().accept(sampleToken)
+        observer.assertValues(false, true)
     }
 
     @Test fun savesHostToken() {
-        preferenceStore.setSpotifyHostToken().call(sampleToken)
+        preferenceStore.setSpotifyHostToken().accept(sampleToken)
         verify(mockEditor).putString(eq(PreferenceStore.SPOTIFY_HOST_TOKEN), eq(sampleTokenString))
     }
 
     @Test fun hostToken_onSaveToken_savesRefreshToken() {
-        preferenceStore.setSpotifyHostToken().call(sampleToken)
+        preferenceStore.setSpotifyHostToken().accept(sampleToken)
         verify(mockEditor).putString(PreferenceStore.Companion.SPOTIFY_HOST_REFRESH, sampleToken.refreshToken)
     }
 
     @Test fun hostLoggedIn_onTokenSaved_updatesLoginState() {
         whenever(mockPrefs.getBoolean(any(), any())).thenReturn(false)
-        val ts = TestSubscriber<Boolean>()
-        preferenceStore.hostLoggedIn().subscribe(ts)
-        preferenceStore.setSpotifyHostToken().call(sampleToken)
-        ts.assertReceivedOnNext(arrayListOf(false, true))
+        val observer = preferenceStore.hostLoggedIn().test()
+        preferenceStore.setSpotifyHostToken().accept(sampleToken)
+        observer.assertValues(false, true)
     }
 
     @Test fun hostToken_onTokenUpdated_emitsObservableOfUpdatedToken() {
-        val ts = TestSubscriber<Token>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
-        preferenceStore.spotifyHostToken().subscribe(ts)
+        preferenceStore.spotifyHostToken().test()
+                .assertValue(sampleToken)
         verify(mockPrefs).getString(eq(PreferenceStore.SPOTIFY_HOST_TOKEN), any())
-        ts.assertReceivedOnNext(arrayListOf(sampleToken))
     }
 
     @Test fun returnsHostRefreshToken() {
@@ -76,16 +71,12 @@ class PreferenceStoreTest {
     }
 
     @Test fun onHostLoggedIn_emitsObservableOfLoginState() {
-        val ts = TestSubscriber<Boolean>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
-        preferenceStore.hostLoggedIn().subscribe(ts)
-        ts.assertReceivedOnNext(arrayListOf(true))
+        preferenceStore.hostLoggedIn().test().assertValue(true)
     }
 
     @Test fun onGuestLoggedIn_emitsObservableOfLoginState() {
-        val ts = TestSubscriber<Boolean>()
         whenever(mockPrefs.getString(any(), any())).thenReturn(sampleTokenString)
-        preferenceStore.guestLoggedIn().subscribe(ts)
-        ts.assertReceivedOnNext(arrayListOf(true))
+        preferenceStore.guestLoggedIn().test().assertValue(true)
     }
 }

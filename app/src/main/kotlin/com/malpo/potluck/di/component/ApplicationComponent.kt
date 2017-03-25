@@ -10,7 +10,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(
         AndroidModule::class,
-        FirebaseModule::class,
         SpotifyModule::class,
         PreferencesModule::class,
         UtilModule::class))

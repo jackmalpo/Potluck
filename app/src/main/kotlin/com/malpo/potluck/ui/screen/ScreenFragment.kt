@@ -10,9 +10,8 @@ import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.extensions.bindToFragment
 import com.malpo.potluck.misc.Knot
 import com.malpo.potluck.ui.base.BaseFragment
-import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import java.util.*
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 import javax.inject.Provider
 

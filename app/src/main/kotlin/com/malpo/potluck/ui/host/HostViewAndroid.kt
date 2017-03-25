@@ -10,7 +10,7 @@ import com.malpo.potluck.ui.screen.AndroidScreen
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.metova.slim.Slim
 import com.metova.slim.annotation.Layout
-import rx.functions.Action1
+import io.reactivex.functions.Consumer
 
 @Layout(R.layout.host_screen)
 class HostViewAndroid : HostView(), AndroidScreen {
@@ -26,7 +26,7 @@ class HostViewAndroid : HostView(), AndroidScreen {
         return view
     }
 
-    override fun updatePage(): Action1<HostScreen.Page> {
-        return Action1 {}
+    override fun updatePage(): Consumer<HostScreen.Page> {
+        return Consumer {}
     }
 }

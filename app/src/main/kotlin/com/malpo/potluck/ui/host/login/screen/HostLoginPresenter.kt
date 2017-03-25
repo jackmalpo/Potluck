@@ -15,7 +15,8 @@ class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostLoginAuthM
 
     fun initAuth(activity: Activity) {
         prefs.hostLoggedIn()
-                .takeFirst { !it /* not logged in */ }
+                .filter { !it /* not logged in */ }
+                .take(1)
                 .subscribe {
                     hostAuth.init(activity)
                 }
@@ -23,7 +24,7 @@ class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostLoginAuthM
 
     override fun bind(holder: ScreenHolder, x: HostLoginScreen.View, knots: MutableCollection<Knot<*>>) {
         knots.tie(
-                prefs.hostLoggedIn().takeFirst { it /* logged in */ } to {
+                prefs.hostLoggedIn().filter { it /* logged in */ }.take(1) to {
                     holder.goTo(HostScreen.Page.playlist_selection.value)
                 }
         )

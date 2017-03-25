@@ -5,7 +5,7 @@ import com.malpo.potluck.ui.screen.ScreenPresenter
 import com.malpo.potluck.ui.screen.ScreenView
 import dagger.Module
 import dagger.Provides
-import rx.Observable
+import io.reactivex.Observable
 
 interface PlaylistSelectionScreen {
 

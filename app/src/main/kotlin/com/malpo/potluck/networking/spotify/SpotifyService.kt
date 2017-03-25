@@ -5,7 +5,7 @@ import com.malpo.potluck.models.spotify.TrackResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.QueryMap
-import rx.Observable
+import io.reactivex.Observable
 
 interface SpotifyService {
     @GET("/v1/search")

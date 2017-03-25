@@ -12,8 +12,8 @@ import com.malpo.potluck.ui.screen.AndroidScreen
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.metova.slim.Slim
 import com.metova.slim.annotation.Layout
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.host_login_screen.view.*
-import rx.functions.Action1
 
 @Layout(R.layout.host_login_screen)
 class HostLoginViewAndroid : HostLoginView(), AndroidScreen {
@@ -29,7 +29,7 @@ class HostLoginViewAndroid : HostLoginView(), AndroidScreen {
         return view
     }
 
-    override fun showHeader(): Action1<Boolean> = Action1{
+    override fun showHeader(): Consumer<Boolean> = Consumer {
         show -> view.host_header.visibility = if(show) VISIBLE else GONE
     }
 }

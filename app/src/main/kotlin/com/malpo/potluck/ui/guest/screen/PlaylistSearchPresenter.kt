@@ -5,7 +5,7 @@ import com.malpo.potluck.misc.toNothing
 import com.malpo.potluck.networking.spotify.guest.SpotifyGuestClient
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.tie
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PlaylistSearchPresenter

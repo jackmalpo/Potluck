@@ -30,12 +30,12 @@ class HostFragment : ScreenFragment<HostScreen.Presenter, HostScreen.View, HostV
         if (page.startsWith(HostScreen.prefix)) {
             when (page) {
                 HostScreen.Page.login.value -> {
-                    view.updatePage().call(HostScreen.Page.login)
+                    view.updatePage().accept(HostScreen.Page.login)
                     switchPage(loginFragment())
                     return true
                 }
                 HostScreen.Page.playlist_selection.value -> {
-                    view.updatePage().call(HostScreen.Page.playlist_selection)
+                    view.updatePage().accept(HostScreen.Page.playlist_selection)
                     switchPage(playlistSelectionFragment())
                     return true
                 }

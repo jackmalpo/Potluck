@@ -12,13 +12,13 @@ import com.malpo.potluck.di.component.ActivityStateComponent
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.ui.BaseActivity
 import com.malpo.potluck.ui.screen.ScreenHolder
-import com.trello.rxlifecycle.FragmentEvent
-import rx.subjects.BehaviorSubject
+import com.trello.rxlifecycle2.android.FragmentEvent
+import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
 
 open class BaseFragment : Fragment(), ScreenHolder {
 
-    protected val lifeCycleSubject: BehaviorSubject<FragmentEvent> = BehaviorSubject.create<FragmentEvent>()
+    protected val lifeCycleSubject: BehaviorProcessor<FragmentEvent> = BehaviorProcessor.create<FragmentEvent>()
 
     @Inject
     protected lateinit var state: ActivityStateComponent

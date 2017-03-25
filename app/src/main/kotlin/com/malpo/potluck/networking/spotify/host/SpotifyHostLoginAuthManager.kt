@@ -7,7 +7,7 @@ import com.malpo.potluck.models.SpotifyCreds
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +30,7 @@ class SpotifyHostLoginAuthManager @Inject constructor(private val client: Spotif
     }
 
     fun handleLoginResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (requestCode === SpotifyCreds.REQUEST_CODE) {
+        if (requestCode == SpotifyCreds.REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type === AuthenticationResponse.Type.CODE) {
                 Timber.d("Received login response code, fetching token from api")
