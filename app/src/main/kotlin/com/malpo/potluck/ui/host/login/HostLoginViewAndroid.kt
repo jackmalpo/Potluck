@@ -5,7 +5,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.malpo.potluck.R
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.knot.Knot
 import com.malpo.potluck.ui.host.login.screen.HostLoginScreen
 import com.malpo.potluck.ui.host.login.screen.HostLoginView
 import com.malpo.potluck.ui.screen.AndroidScreen
@@ -20,7 +20,7 @@ class HostLoginViewAndroid : HostLoginView(), AndroidScreen {
 
     private lateinit var view: View
 
-    override fun bind(holder: ScreenHolder, x: HostLoginScreen.Presenter, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: HostLoginScreen.Presenter, knots: MutableCollection<Knot<*, *>>) {
         //noop
     }
 

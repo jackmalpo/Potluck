@@ -3,7 +3,8 @@ package com.malpo.potluck.ui.guest
 import android.view.View
 import android.view.ViewGroup
 import com.malpo.potluck.R
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.knot.Knot
+import com.malpo.potluck.knot.ObservableKnot
 import com.malpo.potluck.ui.guest.screen.PlaylistSearchScreen
 import com.malpo.potluck.ui.guest.screen.PlaylistSearchView
 import com.malpo.potluck.ui.screen.AndroidScreen
@@ -16,7 +17,7 @@ class PlaylistSearchViewAndroid : PlaylistSearchView(), AndroidScreen {
 
     private lateinit var view: View
 
-    override fun bind(holder: ScreenHolder, x: PlaylistSearchScreen.Presenter, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: PlaylistSearchScreen.Presenter, knots: MutableCollection<Knot<*, *>>) {
         //noop
     }
 

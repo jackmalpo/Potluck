@@ -4,8 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.malpo.potluck.R
-import com.malpo.potluck.misc.Knot
-import com.malpo.potluck.misc.to
+import com.malpo.potluck.knot.Knot
+import com.malpo.potluck.knot.ObservableKnot
+import com.malpo.potluck.knot.to
 import com.malpo.potluck.ui.screen.AndroidScreen
 import com.malpo.potluck.ui.screen.ScreenHolder
 import com.malpo.potluck.ui.screen.tie
@@ -20,7 +21,7 @@ class WelcomeViewAndroid : WelcomeView(), AndroidScreen {
 
     private lateinit var view: View
 
-    override fun bind(holder: ScreenHolder, x: WelcomeScreen.Presenter, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: WelcomeScreen.Presenter, knots: MutableCollection<Knot<*,*>>) {
         knots.tie(
                 view.host_button.clicks() to hostClicks,
                 view.guest_button.clicks() to guestClicks

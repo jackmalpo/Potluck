@@ -2,8 +2,8 @@ package com.malpo.potluck.ui.host.login.screen
 
 import android.app.Activity
 import android.content.Intent
-import com.malpo.potluck.misc.Knot
-import com.malpo.potluck.misc.to
+import com.malpo.potluck.knot.Knot
+import com.malpo.potluck.knot.to
 import com.malpo.potluck.networking.spotify.host.SpotifyHostLoginAuthManager
 import com.malpo.potluck.preferences.PreferenceStore
 import com.malpo.potluck.ui.host.screen.HostScreen
@@ -22,7 +22,7 @@ class HostLoginPresenter @Inject constructor(val hostAuth: SpotifyHostLoginAuthM
                 }
     }
 
-    override fun bind(holder: ScreenHolder, x: HostLoginScreen.View, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: HostLoginScreen.View, knots: MutableCollection<Knot<*, *>>) {
         knots.tie(
                 prefs.hostLoggedIn().filter { it /* logged in */ }.take(1) to {
                     holder.goTo(HostScreen.Page.playlist_selection.value)

@@ -3,7 +3,7 @@ package com.malpo.potluck.ui.host.playlist_selection
 import android.view.View
 import android.view.ViewGroup
 import com.malpo.potluck.R
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.knot.Knot
 import com.malpo.potluck.ui.host.playlist_selection.screen.PlaylistSelectionScreen
 import com.malpo.potluck.ui.host.playlist_selection.screen.PlaylistSelectionView
 import com.malpo.potluck.ui.screen.AndroidScreen
@@ -16,7 +16,7 @@ class PlaylistSelectionViewAndroid : PlaylistSelectionView(), AndroidScreen {
 
     private lateinit var view: View
 
-    override fun bind(holder: ScreenHolder, x: PlaylistSelectionScreen.Presenter, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: PlaylistSelectionScreen.Presenter, knots: MutableCollection<Knot<*, *>>) {
     }
 
     override fun onCreateView(parent: ViewGroup): View {

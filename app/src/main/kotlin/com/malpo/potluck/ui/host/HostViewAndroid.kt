@@ -3,7 +3,7 @@ package com.malpo.potluck.ui.host
 import android.view.View
 import android.view.ViewGroup
 import com.malpo.potluck.R
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.knot.Knot
 import com.malpo.potluck.ui.host.screen.HostScreen
 import com.malpo.potluck.ui.host.screen.HostView
 import com.malpo.potluck.ui.screen.AndroidScreen
@@ -17,7 +17,7 @@ class HostViewAndroid : HostView(), AndroidScreen {
 
     private lateinit var view: View
 
-    override fun bind(holder: ScreenHolder, x: HostScreen.Presenter, knots: MutableCollection<Knot<*>>) {
+    override fun bind(holder: ScreenHolder, x: HostScreen.Presenter, knots: MutableCollection<Knot<*, *>>) {
         //noop
     }
 
