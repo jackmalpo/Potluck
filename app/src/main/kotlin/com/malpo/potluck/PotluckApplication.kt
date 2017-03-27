@@ -26,7 +26,6 @@ class PotluckApplication : Application() {
                 .androidModule(AndroidModule(this))
                 .spotifyModule(SpotifyModule())
                 .preferencesModule(PreferencesModule())
-                .firebaseModule(FirebaseModule())
                 .utilModule(UtilModule())
                 .build()
     }

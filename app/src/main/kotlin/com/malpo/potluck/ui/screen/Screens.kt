@@ -1,12 +1,12 @@
 package com.malpo.potluck.ui.screen
 
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.knot.Knot
 
 interface ScreenPresenter<V : ScreenView<V, P>, P : ScreenPresenter<V, P>> : Screen<V>
 interface ScreenView<V : ScreenView<V, P>, P : ScreenPresenter<V, P>> : Screen<P>
 
 interface Screen<in X> {
-    fun bind(holder: ScreenHolder, x: X, knots: MutableCollection<Knot<*>>)
+    fun bind(holder: ScreenHolder, x: X, knots: MutableCollection<Knot<*,*>>)
 }
 
 interface ScreenHolder {

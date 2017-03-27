@@ -8,11 +8,15 @@ import android.view.View.generateViewId
 import android.view.ViewGroup
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.extensions.bindToFragment
-import com.malpo.potluck.misc.Knot
+import com.malpo.potluck.extensions.observeMain
+import com.malpo.potluck.knot.FlowableKnot
+import com.malpo.potluck.knot.Knot
+import com.malpo.potluck.knot.MaybeKnot
+import com.malpo.potluck.knot.ObservableKnot
 import com.malpo.potluck.ui.base.BaseFragment
-import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import java.util.*
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import org.reactivestreams.Subscriber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -60,13 +64,37 @@ abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, V
     override fun onStart() {
         super.onStart()
         val screenHolder = viewComponent().screenHolder()
-        val knots = ArrayList<Knot<*>>()
+        val knots = ArrayList<Knot<*, *>>()
         presenter.bind(screenHolder, view, knots)
         view.bind(screenHolder, presenter, knots)
         knots.forEach { knot ->
-            @Suppress("UNCHECKED_CAST")
-            knot.from.bindToFragment(lifeCycleSubject).observeOn(AndroidSchedulers.mainThread()).subscribe(knot.to as Observer<in Any?>)
+            when (knot) {
+                is ObservableKnot<*> -> subscribe(knot)
+                is FlowableKnot<*> -> subscribe(knot)
+                is MaybeKnot<*> -> subscribe(knot)
+            }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun subscribe(knot: MaybeKnot<*>) {
+        (knot.from as Maybe<*>).bindToFragment(lifeCycleSubject)
+                .observeMain()
+                .subscribe(knot.to as MaybeObserver<in Any?>)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun subscribe(knot: FlowableKnot<*>) {
+        (knot.from as Flowable<*>).bindToFragment(lifeCycleSubject)
+                .observeMain()
+                .subscribe(knot.to as Subscriber<in Any?>)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun subscribe(knot: ObservableKnot<*>) {
+        (knot.from as Observable<*>).bindToFragment(lifeCycleSubject)
+                .observeMain()
+                .subscribe(knot.to as Observer<in Any?>)
     }
 
     override fun onDestroyView() {

@@ -1,11 +1,12 @@
 package com.malpo.potluck.preferences
 
 import android.content.SharedPreferences
-import com.jakewharton.rxrelay.BehaviorRelay
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.malpo.potluck.models.spotify.Token
 import com.squareup.moshi.Moshi
-import rx.Observable
-import rx.functions.Action1
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
+
 import javax.inject.Singleton
 
 
@@ -19,20 +20,20 @@ class PreferenceStore(val mSharedPreferences: SharedPreferences, val moshi: Mosh
     private val tokenAdapter = moshi.adapter(Token::class.java)
 
     fun guestLoggedIn(): Observable<Boolean> {
-        guestLoggedIn.call(hasHostToken(_spotifyGuestToken()))
-        return guestLoggedIn.asObservable()
+        guestLoggedIn.accept(hasHostToken(_spotifyGuestToken()))
+        return guestLoggedIn
     }
 
     fun spotifyGuestToken(): Observable<Token> {
-        guestToken.call(_spotifyGuestToken())
-        return guestToken.asObservable()
+        guestToken.accept(_spotifyGuestToken())
+        return guestToken
     }
 
-    fun setSpotifyGuestToken(): Action1<Token> {
-        return Action1 { guest ->
+    fun setSpotifyGuestToken(): Consumer<Token> {
+        return Consumer { guest ->
             mSharedPreferences.edit().putString(SPOTIFY_GUEST_TOKEN, tokenAdapter.toJson(guest)).commit()
-            guestToken.call(guest)
-            guestLoggedIn.call(hasHostToken(guest))
+            guestToken.accept(guest)
+            guestLoggedIn.accept(hasHostToken(guest))
         }
     }
 
@@ -41,17 +42,17 @@ class PreferenceStore(val mSharedPreferences: SharedPreferences, val moshi: Mosh
     }
 
     fun spotifyHostToken(): Observable<Token> {
-        hostToken.call(_spotifyHostToken())
-        return hostToken.asObservable()
+        hostToken.accept(_spotifyHostToken())
+        return hostToken
     }
 
-    fun setSpotifyHostToken(): Action1<Token> {
-        return Action1 { host ->
+    fun setSpotifyHostToken(): Consumer<Token> {
+        return Consumer { host ->
             val editor = mSharedPreferences.edit()
             if (host.refreshToken.isNotBlank()) editor.putString(SPOTIFY_HOST_REFRESH, host.refreshToken)
             editor.putString(SPOTIFY_HOST_TOKEN, tokenAdapter.toJson(host)).commit()
-            hostToken.call(host)
-            hostLoggedIn.call(hasHostToken(host))
+            hostToken.accept(host)
+            hostLoggedIn.accept(hasHostToken(host))
         }
     }
 

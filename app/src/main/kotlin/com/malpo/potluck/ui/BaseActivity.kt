@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import com.malpo.potluck.PotluckApplication
 import com.malpo.potluck.di.component.ActivityComponent
 import com.malpo.potluck.di.component.ActivityStateComponent
-import com.trello.rxlifecycle.ActivityEvent
-import rx.subjects.BehaviorSubject
+import com.trello.rxlifecycle2.android.ActivityEvent
+import io.reactivex.processors.BehaviorProcessor
 
 open class BaseActivity : AppCompatActivity() {
 
-    private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
+    private val lifecycleSubject = BehaviorProcessor.create<ActivityEvent>()
 
     private lateinit var component: ActivityComponent
 

@@ -1,6 +1,6 @@
 package com.malpo.potluck.ui.welcome.screen
 
-import com.jakewharton.rxrelay.PublishRelay
+import com.jakewharton.rxrelay2.PublishRelay
 import com.malpo.potluck.ui.screen.ScreenPresenter
 import com.malpo.potluck.ui.screen.ScreenView
 import dagger.Module

@@ -4,7 +4,7 @@ import com.malpo.potluck.ui.screen.ScreenPresenter
 import com.malpo.potluck.ui.screen.ScreenView
 import dagger.Module
 import dagger.Provides
-import rx.functions.Action1
+import io.reactivex.functions.Consumer
 
 interface HostScreen {
 
@@ -25,7 +25,7 @@ interface HostScreen {
 
     interface Presenter : ScreenPresenter<View, Presenter> {}
     interface View : ScreenView<View, Presenter> {
-        fun updatePage(): Action1<Page>
+        fun updatePage(): Consumer<Page>
     }
 
 }

@@ -10,9 +10,10 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import rx.Observable
-import rx.functions.Action1
-import rx.observers.TestSubscriber
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
+import io.reactivex.subscribers.TestSubscriber
+
 import kotlin.test.assertNotNull
 
 class SpotifyGuestClientTest {
@@ -35,20 +36,16 @@ class SpotifyGuestClientTest {
     }
 
     @Test fun guestToken_retrievesToken() {
-        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 {})
+        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Consumer {})
 
-        val ts = TestSubscriber<Token>()
-        guestClient.guestToken().subscribe(ts)
-        ts.assertReceivedOnNext(listOf(token))
+        guestClient.guestToken().test().assertResult(token)
     }
 
     @Test fun guestToken_savesTokenToPrefs_afterRetrieved() {
         var result: Token? = null
-        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Action1 { it -> result = it })
+        whenever(mockPrefs.setSpotifyGuestToken()).thenReturn(Consumer { it -> result = it })
 
-        val ts = TestSubscriber<Token>()
-
-        guestClient.guestToken().subscribe(ts)
+        guestClient.guestToken().test()
         assertNotNull(result)
     }
 }
