@@ -8,6 +8,7 @@ import android.view.View.generateViewId
 import android.view.ViewGroup
 import com.malpo.potluck.di.component.ViewComponent
 import com.malpo.potluck.extensions.bindToFragment
+import com.malpo.potluck.extensions.observeMain
 import com.malpo.potluck.knot.FlowableKnot
 import com.malpo.potluck.knot.Knot
 import com.malpo.potluck.knot.MaybeKnot
@@ -78,21 +79,21 @@ abstract class ScreenFragment<P : ScreenPresenter<V, P>, V : ScreenView<V, P>, V
     @Suppress("UNCHECKED_CAST")
     private fun subscribe(knot: MaybeKnot<*>) {
         (knot.from as Maybe<*>).bindToFragment(lifeCycleSubject)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeMain()
                 .subscribe(knot.to as MaybeObserver<in Any?>)
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun subscribe(knot: FlowableKnot<*>) {
         (knot.from as Flowable<*>).bindToFragment(lifeCycleSubject)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeMain()
                 .subscribe(knot.to as Subscriber<in Any?>)
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun subscribe(knot: ObservableKnot<*>) {
         (knot.from as Observable<*>).bindToFragment(lifeCycleSubject)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeMain()
                 .subscribe(knot.to as Observer<in Any?>)
     }
 
