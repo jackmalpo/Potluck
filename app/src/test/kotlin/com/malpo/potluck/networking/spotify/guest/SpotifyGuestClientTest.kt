@@ -6,14 +6,12 @@ import com.malpo.potluck.networking.spotify.SpotifyTokenService
 import com.malpo.potluck.preferences.PreferenceStore
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import io.reactivex.Observable
-import io.reactivex.functions.Consumer
-import io.reactivex.subscribers.TestSubscriber
-
 import kotlin.test.assertNotNull
 
 class SpotifyGuestClientTest {

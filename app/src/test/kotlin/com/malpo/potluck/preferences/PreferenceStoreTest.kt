@@ -7,10 +7,17 @@ import com.nhaarman.mockito_kotlin.*
 import com.squareup.moshi.Moshi
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
 class PreferenceStoreTest {
-    val mockPrefs: SharedPreferences = mock()
-    val mockEditor: SharedPreferences.Editor = mock()
+
+    @Mock
+    lateinit var mockPrefs: SharedPreferences
+
+    @Mock
+    lateinit var mockEditor: SharedPreferences.Editor
+
     val moshi: Moshi = Moshi.Builder().build()
     val sampleToken: Token = Token("123", expiresIn = 1, scope = "Shrug", refreshToken = "456", token_type = "Normal")
     val sampleTokenString: String = moshi.adapter(Token::class.java).toJson(sampleToken)
@@ -18,6 +25,7 @@ class PreferenceStoreTest {
     lateinit var preferenceStore: PreferenceStore
 
     @Before fun setup() {
+        MockitoAnnotations.initMocks(this)
         preferenceStore = PreferenceStore(mockPrefs, moshi)
         MockPreferenceUtil.setupPreferenceMocks(mockPrefs, mockEditor)
     }
